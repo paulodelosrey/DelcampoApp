@@ -1,8 +1,6 @@
 // ==============================================================================
-// DELCAMPOAPP - SERVIDOR BACKEND RESTful
-// Programa: Programación de Aplicaciones y Servicios para la Nube - SENA ASTIN
-// Ficha: 3186266 | Bitácora 4
-// Autor: Paulo Andrés De los Reyes González
+// DELCAMPOAPP - BACKEND API RESTful (PRODUCCIÓN / AGTECH)
+// "Del campo colombiano directo a tu mesa y negocio"
 // ==============================================================================
 
 const express = require('express');
@@ -20,14 +18,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir frontend estático desde /public
+// Servir frontend estático
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Inicializar base de datos si no existen tablas
 try {
   initializeDatabase({ force: false });
 } catch (err) {
-  console.error('Advertencia al verificar base de datos:', err.message);
+  console.error('Verificación de base de datos:', err.message);
 }
 
 const db = getDatabase();
@@ -42,9 +40,9 @@ app.get('/api/health', (req, res) => {
 
     res.json({
       status: 'OK',
-      proyecto: 'DelCampoApp - Bitácora 4 SENA ASTIN',
-      ficha: '3186266',
-      aprendiz: 'Paulo Andrés De los Reyes González',
+      plataforma: 'DelCampoApp API v1.0',
+      eslogan: 'Del campo colombiano directo a tu mesa y negocio',
+      cobertura: 'Colombia (Caribe/Atlántico, Sabana/Cundinamarca, Antioquia)',
       uptime_segundos: Math.floor(process.uptime()),
       motor_bd: db.engine,
       archivo_bd: DB_FILE,
@@ -53,11 +51,11 @@ app.get('/api/health', (req, res) => {
       tablas_registros: tableCounts
     });
   } catch (error) {
-    res.status(500).json({ error: 'Error al consultar salud del sistema', detalle: error.message });
+    res.status(500).json({ error: 'Error al consultar estado del servicio', detalle: error.message });
   }
 });
 
-// Estadísticas generales para el monitor y vistas
+// Métricas de plataforma
 app.get('/api/stats', (req, res) => {
   try {
     const totalProductos = db.prepare('SELECT count(*) as count FROM productos WHERE activo = 1').get().count;
@@ -72,7 +70,6 @@ app.get('/api/stats', (req, res) => {
       FROM pedidos
     `).get();
 
-    // Ahorro total estimado frente a supermercado para todos los pedidos
     const ahorroRow = db.prepare(`
       SELECT COALESCE(SUM(dp.cantidad * (p.precio_supermercado_ref - dp.precio_unitario)), 0) as ahorro_total
       FROM detalle_pedidos dp
@@ -90,7 +87,7 @@ app.get('/api/stats', (req, res) => {
       totalAhorroCompradoresCOP: ahorroRow.ahorro_total
     });
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener estadísticas', detalle: error.message });
+    res.status(500).json({ error: 'Error al obtener métricas', detalle: error.message });
   }
 });
 
@@ -98,10 +95,10 @@ app.get('/api/stats', (req, res) => {
 // 2. ENDPOINTS DE PRODUCTOS Y TRAZABILIDAD DE ORIGEN
 // ==============================================================================
 
-// GET /api/productos -> Catálogo activo con trazabilidad de origen campesino
+// GET /api/productos -> Catálogo activo con trazabilidad y soporte multirregional
 app.get('/api/productos', (req, res) => {
   try {
-    const { categoria, q } = req.query;
+    const { categoria, region, q } = req.query;
     let sql = `
       SELECT 
         p.id,
@@ -115,8 +112,9 @@ app.get('/api/productos', (req, res) => {
         p.fecha_cosecha,
         p.imagen_url,
         p.activo,
-        -- Trazabilidad
+        -- Trazabilidad y región
         pf.nombre_finca,
+        pf.region,
         pf.municipio_vereda,
         pf.altitud_msnm,
         pf.tipo_cultivo,
@@ -137,10 +135,15 @@ app.get('/api/productos', (req, res) => {
       params.push(categoria);
     }
 
+    if (region && region !== 'Todas') {
+      sql += ' AND pf.region = ?';
+      params.push(region);
+    }
+
     if (q && q.trim()) {
-      sql += ' AND (p.nombre LIKE ? OR pf.municipio_vereda LIKE ? OR u.nombre LIKE ? OR p.categoria LIKE ?)';
+      sql += ' AND (p.nombre LIKE ? OR pf.municipio_vereda LIKE ? OR pf.region LIKE ? OR u.nombre LIKE ? OR p.categoria LIKE ?)';
       const term = `%${q.trim()}%`;
-      params.push(term, term, term, term);
+      params.push(term, term, term, term, term);
     }
 
     sql += ' ORDER BY p.id DESC';
@@ -152,7 +155,7 @@ app.get('/api/productos', (req, res) => {
   }
 });
 
-// POST /api/productos -> Panel Campesino: Publicar nueva cosecha
+// POST /api/productos -> Portal del Productor: Publicar cosecha
 app.post('/api/productos', (req, res) => {
   try {
     const {
@@ -167,7 +170,6 @@ app.post('/api/productos', (req, res) => {
       imagen_url
     } = req.body;
 
-    // Validaciones básicas
     if (!finca_id || !nombre || !categoria || !unidad_medida || !precio_campesino || !stock_disponible) {
       return res.status(400).json({
         error: 'Campos requeridos incompletos',
@@ -181,13 +183,12 @@ app.post('/api/productos', (req, res) => {
     }
 
     const precioCampesinoNum = parseInt(precio_campesino, 10);
-    // Si no se especifica el precio de supermercado de referencia, calcular ~30% adicional
-    const precioRefNum = precio_supermercado_ref ? parseInt(precio_supermercado_ref, 10) : Math.round(precioCampesinoNum * 1.3);
+    const precioRefNum = precio_supermercado_ref ? parseInt(precio_supermercado_ref, 10) : Math.round(precioCampesinoNum * 1.35);
     const stockNum = parseInt(stock_disponible, 10);
     const fechaCosechaTxt = fecha_cosecha && fecha_cosecha.trim() ? fecha_cosecha.trim() : 'Hoy en la madrugada';
     const fotoFinal = imagen_url && imagen_url.trim()
       ? imagen_url.trim()
-      : 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop';
+      : 'https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600&auto=format&fit=crop';
 
     const insertStmt = db.prepare(`
       INSERT INTO productos (
@@ -213,6 +214,7 @@ app.post('/api/productos', (req, res) => {
       SELECT 
         p.*,
         pf.nombre_finca,
+        pf.region,
         pf.municipio_vereda,
         pf.altitud_msnm,
         pf.tipo_cultivo,
@@ -256,9 +258,8 @@ app.patch('/api/productos/:id/stock', (req, res) => {
       const nuevoPrecio = parseInt(precio_campesino, 10);
       updates.push('precio_campesino = ?');
       params.push(nuevoPrecio);
-      // Actualizar proporcionalmente precio de referencia si no se especificó otro
       updates.push('precio_supermercado_ref = ?');
-      params.push(Math.round(nuevoPrecio * 1.3));
+      params.push(Math.round(nuevoPrecio * 1.35));
     }
 
     if (updates.length === 0) {
@@ -282,7 +283,7 @@ app.patch('/api/productos/:id/stock', (req, res) => {
 // 3. ENDPOINTS DE FINCAS Y PUNTOS ALIADOS
 // ==============================================================================
 
-// GET /api/fincas -> Para el selector del panel campesino y trazabilidad
+// GET /api/fincas -> Fincas registradas y cobertura regional
 app.get('/api/fincas', (req, res) => {
   try {
     const fincas = db.prepare(`
@@ -303,7 +304,7 @@ app.get('/api/fincas', (req, res) => {
   }
 });
 
-// GET /api/puntos-aliados -> Tiendas de barrio para recogida programada
+// GET /api/puntos-aliados -> Red urbana de tiendas para retiro a $0 COP
 app.get('/api/puntos-aliados', (req, res) => {
   try {
     const aliados = db.prepare('SELECT * FROM puntos_aliados ORDER BY id ASC').all();
@@ -313,7 +314,7 @@ app.get('/api/puntos-aliados', (req, res) => {
   }
 });
 
-// GET /api/usuarios -> Perfiles de prueba para la interfaz
+// GET /api/usuarios -> Perfiles
 app.get('/api/usuarios', (req, res) => {
   try {
     const { rol } = req.query;
@@ -332,10 +333,9 @@ app.get('/api/usuarios', (req, res) => {
 });
 
 // ==============================================================================
-// 4. ENDPOINTS DE PEDIDOS PROGRAMADOS (TRANSACCIÓN SQL)
+// 4. ENDPOINTS DE PEDIDOS Y RUTAS PROGRAMADAS (TRANSACCIÓN SQL)
 // ==============================================================================
 
-// GET /api/pedidos -> Listar pedidos programados con items y comprador
 app.get('/api/pedidos', (req, res) => {
   try {
     const { estado } = req.query;
@@ -346,6 +346,7 @@ app.get('/api/pedidos', (req, res) => {
         u.telefono AS telefono_comprador,
         u.ubicacion AS ubicacion_comprador,
         pa.nombre_tienda,
+        pa.ciudad_departamento,
         pa.direccion AS direccion_tienda,
         pa.horario_retiro
       FROM pedidos p
@@ -363,7 +364,6 @@ app.get('/api/pedidos', (req, res) => {
 
     const pedidos = db.prepare(sql).all(...params);
 
-    // Adjuntar los detalles (items) de cada pedido
     const detalleStmt = db.prepare(`
       SELECT 
         dp.*,
@@ -371,6 +371,7 @@ app.get('/api/pedidos', (req, res) => {
         pr.unidad_medida,
         pr.imagen_url,
         pf.nombre_finca,
+        pf.region,
         pf.municipio_vereda,
         u.nombre AS nombre_campesino
       FROM detalle_pedidos dp
@@ -394,7 +395,7 @@ app.get('/api/pedidos', (req, res) => {
   }
 });
 
-// POST /api/pedidos -> Transacción atómica de creación de pedido programado
+// POST /api/pedidos -> Creación de orden consolidada en transacción ACID
 app.post('/api/pedidos', (req, res) => {
   try {
     const {
@@ -406,7 +407,6 @@ app.post('/api/pedidos', (req, res) => {
       items
     } = req.body;
 
-    // Validaciones
     if (!comprador_id || !modalidad_entrega || !fecha_programada || !items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({
         error: 'Datos del pedido incompletos',
@@ -419,7 +419,7 @@ app.post('/api/pedidos', (req, res) => {
     }
 
     if (modalidad_entrega === 'PUNTO_ALIADO' && !punto_aliado_id) {
-      return res.status(400).json({ error: 'Debe seleccionar un punto aliado para retiro' });
+      return res.status(400).json({ error: 'Debe seleccionar una tienda aliada para el retiro' });
     }
 
     if (modalidad_entrega === 'DOMICILIO' && (!direccion_entrega || !direccion_entrega.trim())) {
@@ -431,22 +431,20 @@ app.post('/api/pedidos', (req, res) => {
       return res.status(404).json({ error: 'El comprador especificado no existe' });
     }
 
-    // Ejecución de la transacción atómica
     const crearPedidoTx = db.transaction(() => {
       let subtotalCampesinos = 0;
       let ahorroEstimadoTotal = 0;
       const itemsVerificados = [];
 
-      // 1. Validar disponibilidad y stock de cada producto
       for (const item of items) {
         const prod = db.prepare('SELECT * FROM productos WHERE id = ? AND activo = 1').get(item.producto_id);
         if (!prod) {
-          throw new Error(`El producto con ID ${item.producto_id} no existe o ya no está disponible.`);
+          throw new Error(`El producto con ID ${item.producto_id} no está disponible.`);
         }
 
         const cantidad = parseInt(item.cantidad, 10);
         if (isNaN(cantidad) || cantidad <= 0) {
-          throw new Error(`Cantidad inválida para el producto '${prod.nombre}'.`);
+          throw new Error(`Cantidad inválida para '${prod.nombre}'.`);
         }
 
         if (prod.stock_disponible < cantidad) {
@@ -467,12 +465,10 @@ app.post('/api/pedidos', (req, res) => {
         });
       }
 
-      // 2. Cálculo transparente de costos
-      const comisionPlataforma = Math.round(subtotalCampesinos * 0.07); // 7% comisión operativa
-      const costoEnvio = modalidad_entrega === 'DOMICILIO' ? 4500 : 0; // $0 en punto aliado, $4.500 domicilio
+      const comisionPlataforma = Math.round(subtotalCampesinos * 0.07);
+      const costoEnvio = modalidad_entrega === 'DOMICILIO' ? 4500 : 0;
       const totalPagar = subtotalCampesinos + comisionPlataforma + costoEnvio;
 
-      // 3. Insertar pedido en la tabla `pedidos`
       const insertPedidoStmt = db.prepare(`
         INSERT INTO pedidos (
           comprador_id, modalidad_entrega, punto_aliado_id,
@@ -495,7 +491,6 @@ app.post('/api/pedidos', (req, res) => {
 
       const nuevoPedidoId = pedidoInfo.lastInsertRowid;
 
-      // 4. Insertar cada detalle y descontar stock disponible
       const insertDetalleStmt = db.prepare(`
         INSERT INTO detalle_pedidos (pedido_id, producto_id, cantidad, precio_unitario, subtotal)
         VALUES (?, ?, ?, ?, ?)
@@ -547,15 +542,15 @@ app.post('/api/pedidos', (req, res) => {
     const resultado = crearPedidoTx();
 
     res.status(201).json({
-      mensaje: 'Pedido programado confirmado y registrado exitosamente',
+      mensaje: 'Pedido confirmado y programado exitosamente',
       pedido: resultado
     });
   } catch (error) {
-    res.status(400).json({ error: 'Error al procesar pedido programado', detalle: error.message });
+    res.status(400).json({ error: 'Error al procesar pedido', detalle: error.message });
   }
 });
 
-// PATCH /api/pedidos/:id/estado -> Modificar estado del pedido (PROGRAMADO -> EN_RUTA_RURAL -> ENTREGADO)
+// PATCH /api/pedidos/:id/estado
 app.patch('/api/pedidos/:id/estado', (req, res) => {
   try {
     const { id } = req.params;
@@ -592,17 +587,16 @@ app.patch('/api/pedidos/:id/estado', (req, res) => {
   }
 });
 
-// Fallback para SPA: redirigir cualquier otra petición GET a index.html
+// Fallback SPA
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Iniciar servidor
+// Arrancar servidor
 app.listen(PORT, () => {
   console.log('============================================================');
-  console.log(`🚀 [DelCampoApp] Servidor Web Express escuchando en http://localhost:${PORT}`);
-  console.log(`🌿 Modo: SENA ASTIN - Bitácora 4 | Ficha: 3186266`);
-  console.log(`💾 Base de datos embebida activa: ${DB_FILE}`);
-  console.log(`📡 Endpoints REST: http://localhost:${PORT}/api/health`);
+  console.log(`🚀 [DelCampoApp] Servidor Web Express en http://localhost:${PORT}`);
+  console.log(`🌾 Del campo colombiano directo a tu mesa y negocio`);
+  console.log(`💾 Base de datos SQLite activa: ${DB_FILE}`);
   console.log('============================================================');
 });

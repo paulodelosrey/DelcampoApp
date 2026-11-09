@@ -1,7 +1,7 @@
 // ==============================================================================
 // DELCAMPOAPP - CONECTOR DE BASE DE DATOS SQLITE3
-// Ficha SENA ASTIN: 3186266 | Bitácora 4
 // Soporta 'node:sqlite' nativo (Node 22+) y 'better-sqlite3'
+// Modo de journaling DELETE para mantener la base de datos limpia y autocontenida
 // ==============================================================================
 
 const path = require('path');
@@ -22,11 +22,12 @@ function getDatabase() {
   if (dbInstance) return dbInstance;
 
   try {
-    // 1. Priorizar node:sqlite nativo (sin dependencias C++ ni node-gyp)
+    // 1. Priorizar node:sqlite nativo
     const { DatabaseSync } = require('node:sqlite');
     const rawDb = new DatabaseSync(DB_FILE);
     rawDb.exec('PRAGMA foreign_keys = ON;');
-    rawDb.exec('PRAGMA journal_mode = WAL;');
+    rawDb.exec('PRAGMA journal_mode = DELETE;');
+    rawDb.exec('PRAGMA synchronous = NORMAL;');
     engineName = 'SQLite 3 (Node.js native node:sqlite)';
 
     dbInstance = {
@@ -70,7 +71,8 @@ function getDatabase() {
       const Database = require('better-sqlite3');
       const bDb = new Database(DB_FILE);
       bDb.pragma('foreign_keys = ON');
-      bDb.pragma('journal_mode = WAL');
+      bDb.pragma('journal_mode = DELETE');
+      bDb.pragma('synchronous = NORMAL');
       engineName = 'SQLite 3 (better-sqlite3)';
 
       dbInstance = {

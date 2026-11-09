@@ -1,11 +1,9 @@
 // ==============================================================================
-// DELCAMPOAPP - LÓGICA FRONTEND MODULAR
-// Ficha SENA ASTIN: 3186266 | Bitácora 4
-// Aprendiz: Paulo Andrés De los Reyes González
+// DELCAMPOAPP - LÓGICA DE CLIENTE (AGTECH COLOMBIA)
+// "Del campo colombiano directo a tu mesa y negocio"
 // ==============================================================================
 
 const app = {
-  // Estado reactivo de la aplicación
   state: {
     currentRole: 'catalogo',
     products: [],
@@ -15,22 +13,21 @@ const app = {
     stats: {},
     cart: [],
     selectedCategory: 'Todos',
+    selectedRegion: 'Todas',
     searchQuery: '',
     activeFarmerFincaId: 1,
     deliveryMode: 'PUNTO_ALIADO',
     health: null
   },
 
-  // Inicialización
   async init() {
-    console.log('🌱 Inicializando DelCampoApp SPA...');
+    console.log('🌱 Inicializando DelCampoApp...');
     this.loadCartFromStorage();
     await this.fetchInitialData();
     this.setRole('catalogo');
     this.setupEventListeners();
   },
 
-  // Cargar datos del backend
   async fetchInitialData() {
     try {
       const [prodsRes, fincasRes, aliadosRes, healthRes] = await Promise.all([
@@ -50,22 +47,20 @@ const app = {
       this.updateCartBadges();
       this.renderCatalog();
     } catch (err) {
-      console.error('Error al cargar datos iniciales:', err);
-      this.showToast('Error al conectar con el servidor', 'error');
+      console.error('Error al cargar datos:', err);
+      this.showToast('Error al conectar con la plataforma', 'error');
     }
   },
 
-  // Selector de roles en vivo (Modo demostración SENA)
   setRole(role) {
     this.state.currentRole = role;
 
-    // Actualizar tabs de navegación
     ['catalogo', 'carrito', 'campesino', 'logistica'].forEach(r => {
       const btn = document.getElementById(`btn-nav-${r}`);
       const view = document.getElementById(`view-${r}`);
       if (btn) {
         if (r === role) {
-          btn.className = 'nav-tab px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all bg-white text-agro-800 shadow-sm';
+          btn.className = 'nav-tab px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all bg-white text-agro-800 shadow-xs';
         } else {
           btn.className = 'nav-tab px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all text-gray-600 hover:text-gray-900';
         }
@@ -79,11 +74,9 @@ const app = {
       }
     });
 
-    // Sincronizar select móvil
     const mobileSelect = document.getElementById('mobile-role-select');
     if (mobileSelect) mobileSelect.value = role;
 
-    // Acciones específicas por rol
     if (role === 'catalogo') {
       this.renderCatalog();
     } else if (role === 'carrito') {
@@ -98,7 +91,7 @@ const app = {
   },
 
   // ==============================================================================
-  // VISTA 1: CATÁLOGO DIGITAL Y TRAZABILIDAD
+  // SECCIÓN 1: MERCADO CAMPESINO
   // ==============================================================================
 
   setCategory(cat) {
@@ -106,11 +99,16 @@ const app = {
     const pills = document.querySelectorAll('#category-filter-container .cat-pill');
     pills.forEach(p => {
       if (p.textContent.includes(cat) || (cat === 'Todos' && p.textContent.includes('Todas'))) {
-        p.className = 'cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-agro-800 text-white shadow-sm whitespace-nowrap';
+        p.className = 'cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-agro-800 text-white shadow-xs whitespace-nowrap';
       } else {
         p.className = 'cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap';
       }
     });
+    this.filterProducts();
+  },
+
+  setRegion(region) {
+    this.state.selectedRegion = region;
     this.filterProducts();
   },
 
@@ -120,12 +118,14 @@ const app = {
 
     const filtered = this.state.products.filter(p => {
       const matchCat = this.state.selectedCategory === 'Todos' || p.categoria === this.state.selectedCategory;
+      const matchRegion = this.state.selectedRegion === 'Todas' || (p.region && p.region.includes(this.state.selectedRegion));
       const matchSearch = !this.state.searchQuery ||
         p.nombre.toLowerCase().includes(this.state.searchQuery) ||
         p.municipio_vereda.toLowerCase().includes(this.state.searchQuery) ||
+        (p.region && p.region.toLowerCase().includes(this.state.searchQuery)) ||
         p.nombre_campesino.toLowerCase().includes(this.state.searchQuery) ||
         p.categoria.toLowerCase().includes(this.state.searchQuery);
-      return matchCat && matchSearch;
+      return matchCat && matchRegion && matchSearch;
     });
 
     const countEl = document.getElementById('catalog-count');
@@ -146,9 +146,9 @@ const app = {
       grid.innerHTML = `
         <div class="col-span-full py-12 text-center text-gray-500 space-y-3">
           <i class="fa-solid fa-leaf text-4xl text-gray-300"></i>
-          <p class="font-bold text-base">No se encontraron cosechas con los criterios seleccionados.</p>
-          <button onclick="app.setCategory('Todos'); document.getElementById('catalog-search').value='';"
-            class="text-xs font-bold text-agro-700 hover:underline">Ver todas las cosechas</button>
+          <p class="font-bold text-base">No se encontraron cosechas con los filtros seleccionados.</p>
+          <button onclick="app.setCategory('Todos'); app.setRegion('Todas'); document.getElementById('region-filter-select').value='Todas'; document.getElementById('catalog-search').value='';"
+            class="text-xs font-bold text-agro-700 hover:underline">Ver todas las cosechas de Colombia</button>
         </div>
       `;
       return;
@@ -157,71 +157,76 @@ const app = {
     grid.innerHTML = items.map(p => {
       const ahorro = p.porcentaje_ahorro || Math.round(((p.precio_supermercado_ref - p.precio_campesino) / p.precio_supermercado_ref) * 100);
       const enStock = p.stock_disponible > 0;
+      const regionBadge = p.region ? p.region : 'Colombia';
 
       return `
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden flex flex-col transition-card">
-          <!-- Imagen del producto -->
+        <div class="bg-white rounded-3xl border border-gray-200 shadow-xs overflow-hidden flex flex-col transition-card">
+          <!-- Foto del producto -->
           <div class="relative h-48 w-full overflow-hidden bg-gray-100">
             <img src="${p.imagen_url}" alt="${p.nombre}"
               class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-              onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop'" />
+              onerror="this.src='https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600&auto=format&fit=crop'" />
             
             <!-- Badges flotantes -->
             <div class="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
-              <span class="badge-origen text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-md flex items-center gap-1">
-                <i class="fa-solid fa-handshake"></i> 0% Intermediarios
+              <span class="badge-origen text-[10px] font-black px-2.5 py-1 rounded-full shadow-md flex items-center gap-1">
+                <i class="fa-solid fa-handshake"></i> Trato Directo · 93% productor
               </span>
               <span class="badge-ahorro text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-md">
-                Ahorras ${ahorro}% vs Supermercado
+                Ahorras ${ahorro}% vs Grandes Superficies
               </span>
             </div>
 
-            <!-- Badge Categoría -->
-            <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+            <!-- Badge Región -->
+            <div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+              <i class="fa-solid fa-map-pin text-yellow-400 mr-1"></i> ${p.municipio_vereda}
+            </div>
+
+            <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md text-agro-900 text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs">
               ${p.categoria}
             </div>
           </div>
 
-          <!-- Contenido de la tarjeta -->
+          <!-- Contenido -->
           <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
             
             <div class="space-y-1.5">
               <div class="flex items-start justify-between gap-2">
-                <h3 class="font-extrabold text-lg text-gray-900 leading-snug">${p.nombre}</h3>
+                <h3 class="font-black text-lg text-gray-900 leading-snug">${p.nombre}</h3>
                 <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-md whitespace-nowrap">
                   ${p.unidad_medida}
                 </span>
               </div>
 
-              <!-- Precios: Campesino vs Supermercado -->
-              <div class="flex items-baseline gap-2 pt-1">
+              <!-- Precios -->
+              <div class="flex items-baseline gap-2 pt-0.5">
                 <span class="text-2xl font-black text-agro-900">$${p.precio_campesino.toLocaleString('es-CO')}</span>
                 <span class="text-xs text-gray-400 line-through">$${p.precio_supermercado_ref.toLocaleString('es-CO')}</span>
               </div>
             </div>
 
-            <!-- ETIQUETA INTERACTIVA DE TRAZABILIDAD DE ORIGEN -->
+            <!-- Trazabilidad del Productor -->
             <div class="bg-agro-50/70 border border-agro-200/80 rounded-2xl p-3 space-y-2">
               <div class="text-[11px] text-gray-600 flex items-center justify-between">
                 <span class="font-bold text-agro-900 flex items-center gap-1">
-                  <i class="fa-solid fa-person-digging text-agro-700"></i> ${p.nombre_campesino}
+                  <i class="fa-solid fa-user-check text-agro-700"></i> ${p.nombre_campesino}
                 </span>
-                <span class="text-agro-700 font-semibold">${p.altitud_msnm || 'Valle'}</span>
+                <span class="text-agro-700 font-semibold">${p.altitud_msnm || regionBadge}</span>
               </div>
 
               <div class="text-[11px] text-gray-500 flex items-center gap-1">
-                <i class="fa-solid fa-location-dot text-red-500"></i>
+                <i class="fa-solid fa-tree text-green-600"></i>
                 <span class="truncate">${p.nombre_finca} · ${p.municipio_vereda}</span>
               </div>
 
               <button onclick="app.openTraceabilityModal(${p.id})"
                 class="w-full text-center py-1.5 bg-white hover:bg-agro-100 text-agro-800 font-extrabold text-xs rounded-xl border border-agro-300 transition-colors flex items-center justify-center gap-1.5 shadow-2xs">
                 <i class="fa-solid fa-circle-info text-agro-600"></i>
-                <span>Ver origen del cultivo</span>
+                <span>Conocer la finca y origen</span>
               </button>
             </div>
 
-            <!-- Disponibilidad y Botón de Canasta -->
+            <!-- Stock y Botón Canasta -->
             <div class="pt-1 flex items-center justify-between gap-3">
               <div class="text-[11px] font-bold ${enStock ? 'text-green-700' : 'text-red-600'}">
                 <i class="fa-solid fa-box mr-1"></i>
@@ -229,7 +234,7 @@ const app = {
               </div>
 
               <button onclick="app.addToCart(${p.id})" ${!enStock ? 'disabled' : ''}
-                class="px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-sm transition-all ${
+                class="px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-xs transition-all ${
                   enStock
                     ? 'bg-agro-800 hover:bg-agro-900 text-white cursor-pointer active:scale-95'
                     : 'bg-gray-200 text-gray-400 cursor-not-allowed'
@@ -245,28 +250,28 @@ const app = {
     }).join('');
   },
 
-  // Modal de Trazabilidad
   openTraceabilityModal(productId) {
     const prod = this.state.products.find(p => p.id === productId);
     if (!prod) return;
 
     document.getElementById('modal-trace-crop-name').textContent = prod.nombre;
+    document.getElementById('modal-trace-region-badge').textContent = prod.region || 'Colombia';
     document.getElementById('modal-trace-farmer').textContent = prod.nombre_campesino;
-    document.getElementById('modal-trace-phone').innerHTML = `<i class="fa-solid fa-phone mr-1"></i> Contacto directo: ${prod.telefono_campesino || '315 784 9201'}`;
+    document.getElementById('modal-trace-phone').innerHTML = `<i class="fa-solid fa-phone mr-1"></i> Contacto directo: ${prod.telefono_campesino || '315 890 1234'}`;
     document.getElementById('modal-trace-farm').textContent = prod.nombre_finca;
     document.getElementById('modal-trace-location').innerHTML = `<i class="fa-solid fa-location-dot mr-1 text-red-500"></i> ${prod.municipio_vereda}`;
-    document.getElementById('modal-trace-altitude').textContent = prod.altitud_msnm || 'Cordillera Valle';
-    document.getElementById('modal-trace-type').textContent = prod.tipo_cultivo || 'Agroecológico Limpio';
+    document.getElementById('modal-trace-altitude').textContent = prod.altitud_msnm || 'Cultivo de Región';
+    document.getElementById('modal-trace-type').textContent = prod.tipo_cultivo || 'Tradicional Limpio';
     document.getElementById('modal-trace-harvest').textContent = prod.fecha_cosecha || 'Cosechado hoy';
     document.getElementById('modal-trace-story').textContent = prod.historia_productor ||
-      'Agricultor tradicional del departamento del Valle del Cauca comprometido con la soberanía alimentaria, el no uso de químicos tóxicos y la protección de los páramos y cuencas hídricas.';
+      'Agricultor colombiano comprometido con el cuidado de la tierra, la soberanía alimentaria y la entrega de alimentos frescos sin químicos tóxicos.';
 
     const modal = document.getElementById('modal-traceability');
     if (modal) modal.classList.remove('hidden');
   },
 
   // ==============================================================================
-  // VISTA 2: CANASTA Y PROGRAMACIÓN DE PEDIDOS
+  // SECCIÓN 2: MI CANASTA PROGRAMADA
   // ==============================================================================
 
   addToCart(productId, qty = 1) {
@@ -371,11 +376,11 @@ const app = {
         <div class="py-12 text-center text-gray-500 space-y-4">
           <i class="fa-solid fa-basket-shopping text-5xl text-gray-300"></i>
           <div>
-            <p class="font-extrabold text-base text-gray-800">Tu canasta está vacía</p>
-            <p class="text-xs text-gray-500">Explora el catálogo y apoya directamente a los campesinos del Valle del Cauca.</p>
+            <p class="font-black text-base text-gray-800">Tu canasta está vacía</p>
+            <p class="text-xs text-gray-500">Explora el mercado campesino y apoya directamente a los productores colombianos.</p>
           </div>
           <button onclick="app.setRole('catalogo')" class="px-5 py-2.5 bg-agro-800 text-white font-bold text-xs rounded-xl shadow-md">
-            Ir al Catálogo de Cosechas
+            Ir al Mercado Campesino
           </button>
         </div>
       `;
@@ -409,7 +414,7 @@ const app = {
           <div class="flex items-center gap-3">
             <img src="${prod.imagen_url}" alt="${prod.nombre}"
               class="w-14 h-14 rounded-2xl object-cover bg-gray-100 border border-gray-200"
-              onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop'" />
+              onerror="this.src='https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600&auto=format&fit=crop'" />
             <div>
               <div class="font-bold text-sm text-gray-900">${prod.nombre}</div>
               <div class="text-[11px] text-gray-500">${prod.nombre_finca} · ${prod.unidad_medida}</div>
@@ -418,7 +423,6 @@ const app = {
           </div>
 
           <div class="flex items-center gap-4">
-            <!-- Stepper +/- -->
             <div class="flex items-center border border-gray-300 rounded-xl bg-gray-50 p-1">
               <button onclick="app.updateCartItemQty(${prod.id}, -1)" class="w-7 h-7 flex items-center justify-center text-gray-700 hover:bg-white rounded-lg font-bold">
                 <i class="fa-solid fa-minus text-xs"></i>
@@ -429,7 +433,6 @@ const app = {
               </button>
             </div>
 
-            <!-- Subtotal ítem -->
             <div class="text-right min-w-[75px]">
               <div class="font-extrabold text-sm text-gray-900">$${subtotal.toLocaleString('es-CO')}</div>
               <button onclick="app.removeFromCart(${prod.id})" class="text-[10px] text-red-500 hover:underline">Eliminar</button>
@@ -459,7 +462,6 @@ const app = {
     const envio = this.state.deliveryMode === 'DOMICILIO' ? 4500 : 0;
     const total = subtotalCampesinos + comision + envio;
 
-    // Actualizar recuadro de transparencia económica
     const elCampesino = document.getElementById('transparency-campesino');
     const elComision = document.getElementById('transparency-comision');
     const elEnvio = document.getElementById('transparency-envio');
@@ -468,7 +470,7 @@ const app = {
 
     if (elCampesino) elCampesino.textContent = `$${subtotalCampesinos.toLocaleString('es-CO')} COP`;
     if (elComision) elComision.textContent = `$${comision.toLocaleString('es-CO')} COP`;
-    if (elEnvio) elEnvio.textContent = envio === 0 ? '$0 COP (Punto Aliado)' : '$4.500 COP (Domicilio)';
+    if (elEnvio) elEnvio.textContent = envio === 0 ? '$0 COP (Tienda Aliada)' : '$4.500 COP (Domicilio)';
     if (elTotal) elTotal.textContent = `$${total.toLocaleString('es-CO')} COP`;
     if (elAhorro) elAhorro.textContent = `$${ahorroTotal.toLocaleString('es-CO')} COP`;
   },
@@ -481,14 +483,14 @@ const app = {
 
     const buyerId = parseInt(document.getElementById('checkout-buyer-select').value, 10);
     const fechaProgramadaRadio = document.querySelector('input[name="fecha_programada"]:checked');
-    const fechaProgramada = fechaProgramadaRadio ? fechaProgramadaRadio.value : 'Próximo Miércoles - Ruta Valle';
+    const fechaProgramada = fechaProgramadaRadio ? fechaProgramadaRadio.value : 'Próximo Miércoles - Ruta Nacional';
     const puntoAliadoSelect = document.getElementById('checkout-punto-aliado');
     const puntoAliadoId = this.state.deliveryMode === 'PUNTO_ALIADO' ? parseInt(puntoAliadoSelect.value, 10) : null;
     const direccionInput = document.getElementById('checkout-direccion');
     const direccion = this.state.deliveryMode === 'DOMICILIO' ? (direccionInput ? direccionInput.value.trim() : '') : null;
 
     if (this.state.deliveryMode === 'DOMICILIO' && (!direccion || direccion.length < 5)) {
-      this.showToast('Por favor ingresa la dirección de entrega en Cali', 'warning');
+      this.showToast('Por favor ingresa la dirección de entrega', 'warning');
       if (direccionInput) direccionInput.focus();
       return;
     }
@@ -509,7 +511,7 @@ const app = {
       const btn = document.getElementById('btn-submit-order');
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando en SQLite...';
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Registrando orden...';
       }
 
       const res = await fetch('/api/pedidos', {
@@ -519,21 +521,15 @@ const app = {
       });
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.detalle || data.error || 'Error al guardar el pedido');
 
-      if (!res.ok) {
-        throw new Error(data.detalle || data.error || 'Error al guardar el pedido');
-      }
-
-      // Vaciar carrito
       this.state.cart = [];
       this.saveCartToStorage();
       this.updateCartBadges();
 
-      // Recargar productos (el stock disminuyó)
       const prodsRes = await fetch('/api/productos');
       if (prodsRes.ok) this.state.products = await prodsRes.json();
 
-      // Mostrar modal de comprobante
       this.showOrderSuccessModal(data.pedido);
     } catch (err) {
       console.error(err);
@@ -551,7 +547,7 @@ const app = {
     document.getElementById('receipt-order-id').textContent = `#${orderData.pedido_id}`;
     document.getElementById('receipt-date').textContent = orderData.fecha_programada;
     document.getElementById('receipt-mode').textContent = orderData.modalidad_entrega === 'PUNTO_ALIADO'
-      ? 'Retiro en Tienda de Barrio ($0)'
+      ? 'Retiro en Tienda Aliada ($0 COP)'
       : 'Domicilio Urbano Agrupado';
     document.getElementById('receipt-campesino').textContent = `$${orderData.desglose_transparencia.subtotal_campesinos_cop.toLocaleString('es-CO')} COP`;
     document.getElementById('receipt-comision').textContent = `$${orderData.desglose_transparencia.comision_plataforma_cop.toLocaleString('es-CO')} COP`;
@@ -563,7 +559,7 @@ const app = {
   },
 
   // ==============================================================================
-  // VISTA 3: PANEL CAMPESINO DE BAJA CARGA COGNITIVA
+  // SECCIÓN 3: PORTAL DEL PRODUCTOR
   // ==============================================================================
 
   populateFincaSelects() {
@@ -572,7 +568,7 @@ const app = {
 
     if (farmerSelect) {
       farmerSelect.innerHTML = this.state.fincas.map(f => `
-        <option value="${f.id}">${f.nombre_productor} (${f.nombre_finca})</option>
+        <option value="${f.id}">${f.nombre_productor} (${f.nombre_finca} · ${f.region || 'Colombia'})</option>
       `).join('');
       if (this.state.fincas.length > 0) {
         this.state.activeFarmerFincaId = this.state.fincas[0].id;
@@ -581,7 +577,7 @@ const app = {
 
     if (modalSelect) {
       modalSelect.innerHTML = this.state.fincas.map(f => `
-        <option value="${f.id}">${f.nombre_finca} · ${f.municipio_vereda}</option>
+        <option value="${f.id}">${f.nombre_finca} · ${f.municipio_vereda} (${f.region || 'Colombia'})</option>
       `).join('');
     }
   },
@@ -592,8 +588,8 @@ const app = {
     if (!select) return;
 
     select.innerHTML = this.state.puntosAliados.map(p => `
-      <option value="${p.id}" data-dir="${p.direccion}" data-horario="${p.horario_retiro}">
-        ${p.nombre_tienda} (${p.barrio_ciudad})
+      <option value="${p.id}" data-dir="${p.direccion}" data-ciudad="${p.ciudad_departamento}" data-horario="${p.horario_retiro}">
+        ${p.nombre_tienda} — ${p.ciudad_departamento} (${p.barrio})
       </option>
     `).join('');
 
@@ -601,10 +597,11 @@ const app = {
       const selected = select.options[select.selectedIndex];
       if (selected && infoBadge) {
         const dir = selected.getAttribute('data-dir');
+        const ciudad = selected.getAttribute('data-ciudad');
         const horario = selected.getAttribute('data-horario');
         infoBadge.innerHTML = `
-          <div class="font-bold text-agro-900"><i class="fa-solid fa-location-dot text-red-500 mr-1"></i> ${dir}</div>
-          <div class="text-gray-500"><i class="fa-regular fa-clock mr-1"></i> ${horario}</div>
+          <div class="font-bold text-agro-900"><i class="fa-solid fa-location-dot text-red-500 mr-1"></i> ${dir} · ${ciudad}</div>
+          <div class="text-gray-500 text-[10px] mt-0.5"><i class="fa-regular fa-clock mr-1"></i> ${horario}</div>
         `;
       }
     };
@@ -622,14 +619,12 @@ const app = {
     const finca = this.state.fincas.find(f => f.id === this.state.activeFarmerFincaId) || this.state.fincas[0];
     if (!finca) return;
 
-    // Métricas del agricultor
     document.getElementById('farmer-stat-vereda').textContent = `${finca.nombre_finca} · ${finca.municipio_vereda}`;
-    document.getElementById('farmer-stat-altitud').textContent = finca.altitud_msnm || 'Valle';
+    document.getElementById('farmer-stat-altitud').textContent = finca.altitud_msnm || (finca.region || 'Colombia');
 
     const farmerProds = this.state.products.filter(p => p.finca_id === finca.id);
     document.getElementById('farmer-stat-cosechas').textContent = farmerProds.length;
 
-    // Calcular ingresos acumulados en pedidos para esta finca
     let totalIngresos = 0;
     this.state.orders.forEach(order => {
       if (order.items) {
@@ -643,7 +638,6 @@ const app = {
     });
     document.getElementById('farmer-stat-ingresos').textContent = `$${totalIngresos.toLocaleString('es-CO')} COP`;
 
-    // Renderizar tarjetas de cosechas con botones grandes de stock
     const grid = document.getElementById('farmer-products-grid');
     if (!grid) return;
 
@@ -651,7 +645,7 @@ const app = {
       grid.innerHTML = `
         <div class="col-span-full bg-white rounded-3xl p-10 text-center border border-gray-200 space-y-4">
           <i class="fa-solid fa-tractor text-5xl text-gray-300"></i>
-          <p class="font-extrabold text-lg text-gray-800">Aún no tienes cosechas registradas para esta finca.</p>
+          <p class="font-black text-lg text-gray-800">No hay cosechas activas para esta finca.</p>
           <button onclick="app.openNewProductModal()" class="btn-campesino bg-agro-700 text-white">
             <i class="fa-solid fa-plus-circle"></i> Publicar mi primera cosecha
           </button>
@@ -661,12 +655,12 @@ const app = {
     }
 
     grid.innerHTML = farmerProds.map(p => `
-      <div class="bg-white rounded-3xl p-5 border-2 border-gray-200 shadow-sm flex flex-col justify-between space-y-4">
+      <div class="bg-white rounded-3xl p-5 border-2 border-gray-200 shadow-xs flex flex-col justify-between space-y-4">
         
         <div class="flex items-center gap-4">
           <img src="${p.imagen_url}" alt="${p.nombre}"
             class="w-20 h-20 rounded-2xl object-cover bg-gray-100 border border-gray-200"
-            onerror="this.src='https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop'" />
+            onerror="this.src='https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600&auto=format&fit=crop'" />
           <div class="flex-1">
             <span class="bg-agro-100 text-agro-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">${p.categoria}</span>
             <h4 class="font-black text-lg text-gray-900 mt-1">${p.nombre}</h4>
@@ -675,7 +669,6 @@ const app = {
           </div>
         </div>
 
-        <!-- CONTROL DE STOCK DE ALTO CONTRASTE (BOTONES GRANDES) -->
         <div class="bg-gray-50 p-3.5 rounded-2xl border border-gray-200 space-y-2">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold uppercase text-gray-600">Disponibles hoy:</span>
@@ -716,10 +709,10 @@ const app = {
     document.getElementById('np-categoria').value = categoria;
     document.getElementById('np-unidad').value = unidad;
     document.getElementById('np-precio').value = precio;
-    document.getElementById('np-stock').value = 40;
+    document.getElementById('np-stock').value = 50;
     document.getElementById('np-fecha-cosecha').value = 'Hoy a las 6:00 AM';
     document.getElementById('np-imagen-url').value = imagenUrl;
-    this.showToast(`Cosecha '${nombre}' autocompletada`, 'info');
+    this.showToast(`Cosecha '${nombre}' seleccionada`, 'info');
   },
 
   async submitNewProduct(e) {
@@ -754,13 +747,10 @@ const app = {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al guardar cosecha');
 
-      this.showToast('¡Cosecha publicada con éxito en DelCampoApp!', 'success');
+      this.showToast('¡Cosecha publicada con éxito en el mercado!', 'success');
       this.closeModal('modal-new-product');
-
-      // Limpiar form
       document.getElementById('form-new-product').reset();
 
-      // Recargar productos
       const prodsRes = await fetch('/api/productos');
       if (prodsRes.ok) this.state.products = await prodsRes.json();
 
@@ -797,7 +787,7 @@ const app = {
   },
 
   // ==============================================================================
-  // VISTA 4: HOJA DE RUTA LOGÍSTICA Y MONITOR SQLITE
+  // SECCIÓN 4: CENTRO DE OPERACIONES Y RUTAS
   // ==============================================================================
 
   async refreshLogisticaData() {
@@ -815,7 +805,7 @@ const app = {
       this.renderDbMonitor();
       this.renderOrdersTable();
     } catch (err) {
-      console.error('Error al actualizar datos de logística:', err);
+      console.error('Error al actualizar datos de rutas:', err);
     }
   },
 
@@ -856,7 +846,7 @@ const app = {
       tbody.innerHTML = `
         <tr>
           <td colspan="9" class="py-8 text-center text-gray-400 text-xs">
-            No hay pedidos programados con el estado seleccionado.
+            No hay despachos con el estado seleccionado.
           </td>
         </tr>
       `;
@@ -884,10 +874,10 @@ const app = {
             <div class="text-[10px] text-gray-500">${o.telefono_comprador || ''}</div>
           </td>
           <td class="py-3 px-4">
-            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isAliado ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}">
+            <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${isAliado ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}">
               ${isAliado ? '🏪 Tienda Aliada' : '🛵 Domicilio'}
             </span>
-            <div class="text-xs text-gray-600 truncate max-w-[180px] mt-1">
+            <div class="text-xs text-gray-600 truncate max-w-[180px] mt-1 font-medium">
               ${isAliado ? (o.nombre_tienda || 'Punto Aliado') : (o.direccion_entrega || o.ubicacion_comprador)}
             </div>
           </td>
@@ -896,14 +886,14 @@ const app = {
             <div class="text-[10px] text-gray-400 truncate max-w-[160px]" title="${itemsList}">${itemsList}</div>
           </td>
           <td class="py-3 px-4">
-            <div class="text-[11px] font-bold text-green-700">Campesino (93%): $${o.subtotal_campesinos.toLocaleString('es-CO')}</div>
-            <div class="text-[10px] text-gray-500">DelCampo (7%): $${o.comision_plataforma.toLocaleString('es-CO')}</div>
+            <div class="text-[11px] font-bold text-green-700">Productor (93%): $${o.subtotal_campesinos.toLocaleString('es-CO')}</div>
+            <div class="text-[10px] text-gray-500">Operación (7%): $${o.comision_plataforma.toLocaleString('es-CO')}</div>
           </td>
           <td class="py-3 px-4 font-black text-sm text-gray-900">
             $${o.total_pagar.toLocaleString('es-CO')}
           </td>
           <td class="py-3 px-4">
-            <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full border ${statusBadgeClass}">
+            <span class="text-[10px] font-black px-2.5 py-1 rounded-full border ${statusBadgeClass}">
               ${o.estado}
             </span>
           </td>
@@ -953,10 +943,6 @@ const app = {
       this.showToast(err.message, 'error');
     }
   },
-
-  // ==============================================================================
-  // UTILIDADES: MODALES, STORAGE Y TOASTS
-  // ==============================================================================
 
   closeModal(modalId) {
     const modal = document.getElementById(modalId);
@@ -1031,7 +1017,6 @@ const app = {
   },
 
   setupEventListeners() {
-    // Cerrar modales con tecla Escape
     window.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         this.closeModal('modal-traceability');
@@ -1042,7 +1027,6 @@ const app = {
   }
 };
 
-// Iniciar aplicación al cargar el DOM
 document.addEventListener('DOMContentLoaded', () => {
   app.init();
 });

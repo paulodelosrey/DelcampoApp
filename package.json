@@ -1,18 +1,18 @@
 {
   "name": "delcampoapp",
   "version": "1.0.0",
-  "description": "Plataforma web de comercio justo y pedidos programados del campo a la ciudad - Bitácora 4 SENA ASTIN",
+  "description": "Plataforma AgTech de comercio justo y rutas programadas del campo colombiano directo a la ciudad",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "init-db": "node database/init_db.js"
   },
   "keywords": [
-    "sena",
     "delcampoapp",
+    "agtech",
     "comercio-justo",
-    "valle-del-cauca",
-    "agroecologia",
+    "colombia",
+    "caribe",
     "sqlite"
   ],
   "author": "Paulo Andrés De los Reyes González",

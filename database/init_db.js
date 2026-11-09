@@ -1,7 +1,6 @@
 // ==============================================================================
-// DELCAMPOAPP - SCRIPT DE INICIALIZACIÓN Y POBLADO DE BASE DE DATOS
-// Ficha SENA ASTIN: 3186266 | Bitácora 4
-// Aprendiz: Paulo Andrés De los Reyes González
+// DELCAMPOAPP - INICIALIZACIÓN DE BASE DE DATOS
+// Plataforma AgTech de Comercio Justo y Rutas Programadas
 // ==============================================================================
 
 const fs = require('fs');
@@ -15,37 +14,32 @@ function initializeDatabase(options = {}) {
   console.log('------------------------------------------------------------');
   console.log(`📂 Archivo BD: ${DB_FILE}`);
 
+  // Limpiar posibles archivos temporales de WAL si existen
+  const shmFile = `${DB_FILE}-shm`;
+  const walFile = `${DB_FILE}-wal`;
+  if (fs.existsSync(shmFile)) try { fs.unlinkSync(shmFile); } catch (e) {}
+  if (fs.existsSync(walFile)) try { fs.unlinkSync(walFile); } catch (e) {}
+
   const db = getDatabase();
   console.log(`⚙️  Motor activo: ${db.engine}`);
 
-  // Verificar si las tablas ya existen
-  const checkTables = db.prepare(
-    "SELECT count(*) as count FROM sqlite_master WHERE type='table' AND name IN ('usuarios', 'productos', 'pedidos')"
-  ).get();
-
-  if (checkTables.count >= 3 && !force) {
-    console.log('✅ La base de datos ya contiene las tablas del modelo relacional.');
-    printSummary(db);
-    return true;
-  }
-
   // 1. Ejecutar Schema DDL
   const schemaPath = path.join(__dirname, 'schema.sql');
-  console.log(`📄 Leyendo esquema DDL desde: ${schemaPath}`);
+  console.log(`📄 Aplicando esquema DDL: ${schemaPath}`);
   const schemaSql = fs.readFileSync(schemaPath, 'utf8');
   db.exec(schemaSql);
   console.log('✅ Esquema DDL aplicado con éxito (6 tablas con integridad referencial e índices).');
 
-  // 2. Ejecutar Seed DML
+  // 2. Ejecutar Seed DML Nacional
   const seedPath = path.join(__dirname, 'seed.sql');
-  console.log(`🌾 Insertando datos semilla desde: ${seedPath}`);
+  console.log(`🌾 Insertando cosechas y datos de productores de Colombia: ${seedPath}`);
   const seedSql = fs.readFileSync(seedPath, 'utf8');
   db.exec(seedSql);
-  console.log('✅ Datos semilla insertados con éxito (Campesinos, Fincas, Cosechas, Aliados, Pedidos).');
+  console.log('✅ Datos semilla nacionales cargados (Caribe / Atlántico, Cundinamarca y Antioquia).');
 
   printSummary(db);
   console.log('------------------------------------------------------------');
-  console.log('🎉 Base de datos lista para operar al 100%');
+  console.log('🎉 Base de datos consolidada y lista para producción.');
   console.log('------------------------------------------------------------');
   return true;
 }
@@ -70,7 +64,6 @@ function printSummary(db) {
   return counts;
 }
 
-// Ejecutar si se llama directamente via CLI (`npm run init-db` o `node database/init_db.js`)
 if (require.main === module) {
   try {
     initializeDatabase({ force: true });

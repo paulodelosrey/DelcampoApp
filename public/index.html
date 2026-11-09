@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DelCampoApp | Comercio Justo del Campo a la Ciudad - SENA ASTIN</title>
+  <title>DelCampoApp | Del campo colombiano directo a tu mesa y negocio</title>
   
   <!-- TailwindCSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -24,10 +24,10 @@
               800: '#1b5e20',
               900: '#18471c'
             },
-            earth: {
-              100: '#f5eee6',
-              600: '#795548',
-              800: '#4e342e'
+            caribe: {
+              50: '#f0fdf4',
+              500: '#10b981',
+              700: '#047857'
             }
           }
         }
@@ -43,85 +43,83 @@
   <!-- Font Awesome 6 Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <!-- Estilos del Proyecto -->
+  <!-- Estilos Personalizados -->
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body class="bg-[#f7f9f6] text-gray-800 antialiased min-h-screen flex flex-col">
 
-  <!-- BANNER SUPERIOR INSTITUCIONAL SENA -->
-  <div class="bg-gradient-to-r from-agro-900 via-agro-800 to-agro-700 text-white text-xs sm:text-sm py-1.5 px-4">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+  <!-- TOP BAR COMERCIAL / VALOR AGREGADO -->
+  <div class="bg-gradient-to-r from-agro-900 via-agro-800 to-agro-700 text-white text-xs sm:text-sm py-2 px-4 shadow-xs">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-2">
-        <span class="bg-white/20 text-white px-2 py-0.5 rounded font-bold uppercase tracking-wider text-[10px]">SENA Centro ASTIN</span>
-        <span class="font-medium hidden sm:inline">Programación de Aplicaciones y Servicios para la Nube</span>
-        <span class="text-white/60">|</span>
-        <span class="text-agro-100">Ficha: <strong>3186266</strong></span>
+        <span class="bg-yellow-400 text-agro-950 font-black text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider">Trato Directo</span>
+        <span class="font-semibold text-agro-50">93% del valor de cada cosecha va directo a las manos del campesino colombiano</span>
       </div>
-      <div class="flex items-center gap-3">
-        <span class="text-white/90"><i class="fa-solid fa-user-graduate mr-1"></i> Aprendiz: <strong>Paulo Andrés De los Reyes González</strong></span>
-        <span class="hidden md:inline bg-yellow-400 text-agro-900 px-2 py-0.5 rounded text-[11px] font-extrabold">Bitácora 4</span>
+      <div class="flex items-center gap-4 text-xs text-agro-100">
+        <span class="hidden md:inline"><i class="fa-solid fa-truck-fast text-yellow-300 mr-1.5"></i> Despachos semanales programados: <strong>Miércoles y Sábados</strong></span>
+        <span class="bg-white/15 px-2.5 py-0.5 rounded-full text-white font-medium text-[11px]"><i class="fa-solid fa-location-dot text-red-400 mr-1"></i> Cobertura Nacional</span>
       </div>
     </div>
   </div>
 
-  <!-- NAVEGACIÓN Y SELECTOR DE ROLES EN VIVO (MODO DEMOSTRACIÓN SENA) -->
-  <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+  <!-- NAVEGACIÓN PRINCIPAL -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20 gap-4">
         
-        <!-- Logotipo DelCampoApp -->
-        <div class="flex items-center gap-3 cursor-pointer" onclick="app.setRole('catalogo')">
+        <!-- Logo DelCampoApp -->
+        <div class="flex items-center gap-3.5 cursor-pointer" onclick="app.setRole('catalogo')">
           <div class="w-12 h-12 rounded-2xl bg-agro-800 text-white flex items-center justify-center text-2xl shadow-md">
-            <i class="fa-solid fa-seedling"></i>
+            <i class="fa-solid fa-leaf"></i>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="text-2xl font-extrabold text-agro-900 tracking-tight">DelCampo<span class="text-agro-600">App</span></span>
-              <span class="bg-agro-100 text-agro-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Valle del Cauca</span>
+              <span class="text-2xl font-black text-agro-900 tracking-tight">DelCampo<span class="text-agro-600">App</span></span>
+              <span class="bg-agro-100 text-agro-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">AgTech Colombia</span>
             </div>
-            <p class="text-xs text-gray-500 font-medium hidden sm:block">Comercio Justo Directo Campesino & Rutas Programadas Cali</p>
+            <p class="text-xs text-gray-500 font-medium hidden sm:block">Del campo colombiano directo a tu mesa y negocio</p>
           </div>
         </div>
 
-        <!-- SELECTOR RÁPIDO DE ROLES EN VIVO -->
+        <!-- NAVEGACIÓN DE PRODUCTO -->
         <nav class="hidden lg:flex items-center bg-gray-100 p-1.5 rounded-2xl border border-gray-200 gap-1" id="nav-role-selector">
           <button onclick="app.setRole('catalogo')" id="btn-nav-catalogo"
-            class="nav-tab px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all bg-white text-agro-800 shadow-sm">
+            class="nav-tab px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all bg-white text-agro-800 shadow-xs">
             <i class="fa-solid fa-store text-agro-600"></i>
-            <span>Catálogo y Trazabilidad</span>
+            <span>Mercado Campesino</span>
           </button>
+          
           <button onclick="app.setRole('carrito')" id="btn-nav-carrito"
             class="nav-tab px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all text-gray-600 hover:text-gray-900 relative">
             <i class="fa-solid fa-basket-shopping text-agro-600"></i>
-            <span>Canasta Programada</span>
+            <span>Mi Canasta Programada</span>
             <span id="cart-counter-badge" class="bg-agro-700 text-white text-[11px] font-extrabold px-1.5 py-0.2 rounded-full hidden">0</span>
           </button>
+
           <button onclick="app.setRole('campesino')" id="btn-nav-campesino"
             class="nav-tab px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all text-gray-600 hover:text-gray-900">
             <i class="fa-solid fa-tractor text-agro-600"></i>
-            <span>Panel Campesino</span>
-            <span class="bg-amber-100 text-amber-800 text-[10px] px-1.5 py-0.5 rounded font-extrabold uppercase">Baja Carga</span>
+            <span>Portal del Productor</span>
           </button>
+
           <button onclick="app.setRole('logistica')" id="btn-nav-logistica"
             class="nav-tab px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all text-gray-600 hover:text-gray-900">
-            <i class="fa-solid fa-truck-ramp-box text-agro-600"></i>
-            <span>Rutas & Monitor BD</span>
-            <span class="bg-green-100 text-green-800 text-[10px] px-1.5 py-0.5 rounded font-bold">SQLite</span>
+            <i class="fa-solid fa-route text-agro-600"></i>
+            <span>Centro de Operaciones y Rutas</span>
           </button>
         </nav>
 
-        <!-- Botones Móvil y Acceso Rápido Carrito -->
+        <!-- Móvil: Carrito y Menú -->
         <div class="flex items-center gap-2">
           <button onclick="app.setRole('carrito')" class="lg:hidden relative p-2.5 bg-agro-50 text-agro-800 rounded-xl font-bold border border-agro-200">
             <i class="fa-solid fa-basket-shopping text-lg"></i>
             <span id="cart-counter-badge-mobile" class="absolute -top-1 -right-1 bg-agro-700 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full hidden">0</span>
           </button>
-          <!-- Selector Móvil de Rol -->
           <select id="mobile-role-select" onchange="app.setRole(this.value)" class="lg:hidden text-xs font-bold bg-gray-100 border border-gray-300 rounded-xl p-2 text-agro-900">
-            <option value="catalogo">🛒 Catálogo</option>
-            <option value="carrito">🛍️ Canasta</option>
-            <option value="campesino">🧑‍🌾 Panel Campesino</option>
-            <option value="logistica">🚚 Rutas & Monitor</option>
+            <option value="catalogo">🌾 Mercado Campesino</option>
+            <option value="carrito">🛍️ Mi Canasta</option>
+            <option value="campesino">🧑‍🌾 Portal del Productor</option>
+            <option value="logistica">🚚 Operaciones & Rutas</option>
           </select>
         </div>
 
@@ -129,117 +127,136 @@
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL DINÁMICO POR ROLES -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- ============================================================================== -->
-    <!-- VISTA 1: CATÁLOGO DIGITAL Y TRAZABILIDAD (Rol: Comprador / Restaurante) -->
+    <!-- SECCIÓN 1: MERCADO CAMPESINO (Catálogo Digital y Trazabilidad) -->
     <!-- ============================================================================== -->
     <section id="view-catalogo" class="space-y-8">
       
-      <!-- HERO BANNER AGROECOLÓGICO -->
+      <!-- HERO BANNER NACIONAL -->
       <div class="relative overflow-hidden bg-gradient-to-br from-agro-900 via-agro-800 to-agro-700 rounded-3xl p-6 sm:p-10 text-white shadow-xl">
         <div class="relative z-10 max-w-3xl space-y-4">
-          <div class="inline-flex items-center gap-2 bg-yellow-400 text-agro-950 font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
-            <i class="fa-solid fa-shield-halved"></i> 0% Intermediarios · 100% Pago Justo al Productor
+          <div class="inline-flex items-center gap-2 bg-yellow-400 text-agro-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+            <i class="fa-solid fa-shield-halved"></i> Red Nacional de Productores Agropecuarios
           </div>
-          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-            Cosechas frescas del Valle del Cauca directo a tu mesa en Cali.
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+            Alimentos frescos del campo colombiano, sin intermediarios especulativos.
           </h1>
           <p class="text-agro-100 text-sm sm:text-base leading-relaxed">
-            Conectamos agricultores de <strong>Tenerife, Felidia y Dagua</strong> con hogares y restaurantes. El 93% de tu compra va directo a las manos del campesino. Programa tu entrega para las rutas semanales sin intermediación especulativa.
+            Conectamos cosechas de origen en el <strong>Atlántico / Caribe, Cundinamarca y Antioquia</strong> con hogares, comercios y restaurantes. Disfruta alimentos recolectados el mismo día con trazabilidad garantizada y precios justos.
           </p>
           <div class="flex flex-wrap items-center gap-4 pt-2">
-            <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 text-xs sm:text-sm">
-              <i class="fa-regular fa-calendar-check text-yellow-300 text-lg"></i>
-              <span>Próximos despachos: <strong>Miércoles & Sábados</strong></span>
-            </div>
             <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 text-xs sm:text-sm">
               <i class="fa-solid fa-store text-yellow-300 text-lg"></i>
               <span>Retiro en Tiendas de Barrio Aliadas: <strong>$0 COP Envío</strong></span>
             </div>
+            <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 text-xs sm:text-sm">
+              <i class="fa-solid fa-calendar-check text-yellow-300 text-lg"></i>
+              <span>Rutas semanales de despacho: <strong>Miércoles & Sábados</strong></span>
+            </div>
           </div>
         </div>
-        <!-- Fondo decorativo sutil -->
-        <div class="absolute -right-10 -bottom-10 opacity-15 text-[220px] pointer-events-none text-white">
-          <i class="fa-solid fa-leaf"></i>
+        <div class="absolute -right-8 -bottom-8 opacity-15 text-[240px] pointer-events-none text-white">
+          <i class="fa-solid fa-seedling"></i>
         </div>
       </div>
 
-      <!-- BARRA DE BÚSQUEDA Y FILTROS POR CATEGORÍA -->
-      <div class="bg-white rounded-2xl p-4 sm:p-6 border border-gray-200 shadow-sm space-y-4">
+      <!-- FILTROS MULTIRREGIONALES Y BÚSQUEDA -->
+      <div class="bg-white rounded-2xl p-5 sm:p-6 border border-gray-200 shadow-xs space-y-5">
+        
+        <!-- Fila 1: Buscador y Selector de Región -->
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-          <!-- Buscador en tiempo real -->
+          <!-- Buscador -->
           <div class="relative w-full md:w-96">
             <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
             <input type="text" id="catalog-search" oninput="app.filterProducts()"
-              placeholder="Buscar cosecha, vereda o campesino..."
+              placeholder="Buscar por alimento, finca, campesino o municipio..."
               class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-agro-600 focus:bg-white transition-all" />
           </div>
-          <!-- Contador de resultados -->
+
+          <!-- Selector de Región / Cobertura -->
+          <div class="flex items-center gap-2 w-full md:w-auto">
+            <label class="text-xs font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap">
+              <i class="fa-solid fa-earth-americas text-agro-700 mr-1"></i> Región:
+            </label>
+            <select id="region-filter-select" onchange="app.setRegion(this.value)"
+              class="w-full md:w-64 p-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm font-bold text-agro-900 focus:ring-2 focus:ring-agro-600">
+              <option value="Todas">🇨🇴 Todas las regiones de Colombia</option>
+              <option value="Caribe y Atlántico">🌴 Caribe y Atlántico (Baranoa, Polonuevo...)</option>
+              <option value="Sabana y Centro">🏔️ Sabana y Centro (Subachoque, Cundinamarca...)</option>
+              <option value="Antioquia y Eje Cafetero">☕ Antioquia y Eje Cafetero (Marinilla, El Santuario...)</option>
+            </select>
+          </div>
+
+          <!-- Contador -->
           <div class="text-xs sm:text-sm font-semibold text-gray-500 self-end md:self-center">
-            Mostrando <span id="catalog-count" class="text-agro-800 font-bold">10</span> cosechas activas
+            <span id="catalog-count" class="text-agro-800 font-extrabold text-base">0</span> cosechas disponibles
           </div>
         </div>
 
-        <!-- Categorías -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="category-filter-container">
-          <button onclick="app.setCategory('Todos')" class="cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-agro-800 text-white shadow-sm whitespace-nowrap">
+        <!-- Fila 2: Filtros por Categoría -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="category-filter-container">
+          <button onclick="app.setCategory('Todos')" class="cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-agro-800 text-white shadow-xs whitespace-nowrap">
             🌾 Todas las cosechas
           </button>
-          <button onclick="app.setCategory('Hortalizas')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap">
-            🥬 Hortalizas
+          <button onclick="app.setCategory('Tubérculos')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap">
+            🥔 Tubérculos (Yuca, Ñame, Papa)
           </button>
           <button onclick="app.setCategory('Frutas')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap">
-            🥑 Frutas
+            🥑 Frutas (Aguacate, Limón, Fresas)
           </button>
-          <button onclick="app.setCategory('Tubérculos')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap">
-            🥔 Tubérculos
+          <button onclick="app.setCategory('Hortalizas')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap">
+            🥬 Hortalizas (Tomate, Cebolla, Lechuga)
           </button>
           <button onclick="app.setCategory('Lácteos y Huevos')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap">
-            🥚 Lácteos y Huevos
+            🧀 Lácteos & Huevos Campesinos
+          </button>
+          <button onclick="app.setCategory('Granos')" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap">
+            🫘 Granos (Fríjol Criollo)
           </button>
         </div>
+
       </div>
 
-      <!-- GRID DE PRODUCTOS (Cosechas disponibles) -->
+      <!-- GRID DE COSECHAS DISPONIBLES -->
       <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <!-- Renderizado dinámicamente vía app.js -->
       </div>
     </section>
 
     <!-- ============================================================================== -->
-    <!-- VISTA 2: CANASTA Y PROGRAMACIÓN DE PEDIDO (Rol: Comprador) -->
+    <!-- SECCIÓN 2: MI CANASTA PROGRAMADA (Carrito y Checkout con Puntos Aliados) -->
     <!-- ============================================================================== -->
     <section id="view-carrito" class="hidden space-y-8">
       
       <div class="flex items-center justify-between border-b border-gray-200 pb-4">
         <div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-agro-900">Mi Canasta de Pedido Programado</h2>
+          <h2 class="text-2xl sm:text-3xl font-black text-agro-900">Mi Canasta Programada</h2>
           <p class="text-sm text-gray-600">Revisa tus alimentos frescos y programa la entrega para la ruta de la semana.</p>
         </div>
         <button onclick="app.setRole('catalogo')" class="text-xs sm:text-sm font-bold text-agro-700 hover:text-agro-900 flex items-center gap-1.5">
-          <i class="fa-solid fa-arrow-left"></i> Continuar seleccionando cosechas
+          <i class="fa-solid fa-arrow-left"></i> Continuar explorando cosechas
         </button>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- COLUMNA IZQUIERDA: ÍTEMS Y CONFIGURACIÓN DE ENTREGA -->
+        <!-- Columna Izquierda: Ítems y Modalidad de Entrega -->
         <div class="lg:col-span-7 space-y-6">
           
-          <!-- Lista de ítems en canasta -->
-          <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-4">
+          <!-- Lista de ítems -->
+          <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-xs space-y-4">
             <h3 class="font-bold text-lg text-gray-900 flex items-center justify-between">
               <span>Alimentos en tu canasta</span>
               <span id="cart-items-qty-text" class="text-xs font-semibold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">0 ítems</span>
             </h3>
 
             <div id="cart-items-list" class="divide-y divide-gray-100">
-              <!-- Renderizado dinámicamente vía app.js -->
+              <!-- Renderizado dinámicamente -->
             </div>
 
-            <!-- Botón Vaciar canasta si hay items -->
             <div id="cart-clear-btn-wrap" class="pt-2 text-right hidden">
               <button onclick="app.clearCart()" class="text-xs text-red-600 hover:text-red-800 font-semibold">
                 <i class="fa-regular fa-trash-can mr-1"></i> Vaciar toda la canasta
@@ -247,47 +264,48 @@
             </div>
           </div>
 
-          <!-- FORMULARIO DE PROGRAMACIÓN DE ENTREGA -->
-          <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-5">
+          <!-- Configuración de Entrega -->
+          <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-xs space-y-5">
             <h3 class="font-bold text-lg text-gray-900 flex items-center gap-2">
-              <i class="fa-solid fa-truck-fast text-agro-700"></i> Programación de Despacho y Entrega
+              <i class="fa-solid fa-truck-fast text-agro-700"></i> Despacho y Entrega Programada
             </h3>
 
-            <!-- 1. Selección de Comprador de Demostración -->
+            <!-- Perfil de Comprador -->
             <div class="space-y-2">
-              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Perfil de Comprador (Demostración SENA)</label>
+              <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Cliente / Cuenta Compradora</label>
               <select id="checkout-buyer-select" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-medium focus:ring-2 focus:ring-agro-600">
-                <option value="4">Carlos Alberto Mendoza (Hogar Urbano · Barrio Capri, Cali)</option>
-                <option value="5">Restaurante Sabor Valluno (Restaurante Local · Barrio Granada, Cali)</option>
+                <option value="4">Restaurante Fogón Caribeño (Barranquilla, Atlántico)</option>
+                <option value="5">Despensa & Café Urbano (Chapinero, Bogotá D.C.)</option>
+                <option value="6">Familia Gómez Restrepo (Laureles, Medellín, Antioquia)</option>
               </select>
             </div>
 
-            <!-- 2. Fecha de Entrega Programada -->
+            <!-- Ruta Semanal -->
             <div class="space-y-2">
               <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Ruta Semanal Programada</label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <label class="flex items-center gap-3 p-3.5 border-2 rounded-xl cursor-pointer transition-all border-agro-700 bg-agro-50 text-agro-900 font-bold text-sm">
-                  <input type="radio" name="fecha_programada" value="Próximo Miércoles - Ruta Valle" checked class="text-agro-700 focus:ring-agro-600" />
+                  <input type="radio" name="fecha_programada" value="Próximo Miércoles - Ruta Nacional" checked class="text-agro-700 focus:ring-agro-600" />
                   <div>
-                    <div class="text-xs text-agro-600 uppercase font-extrabold">Ruta Valle</div>
+                    <div class="text-xs text-agro-600 uppercase font-black">Ruta Miércoles</div>
                     <div>Próximo Miércoles</div>
                   </div>
                 </label>
                 <label class="flex items-center gap-3 p-3.5 border-2 rounded-xl cursor-pointer transition-all border-gray-200 bg-white hover:border-gray-300 text-gray-800 font-bold text-sm">
-                  <input type="radio" name="fecha_programada" value="Próximo Sábado - Ruta Campesina" class="text-agro-700 focus:ring-agro-600" />
+                  <input type="radio" name="fecha_programada" value="Próximo Sábado - Ruta Fin de Semana" class="text-agro-700 focus:ring-agro-600" />
                   <div>
-                    <div class="text-xs text-gray-500 uppercase font-extrabold">Ruta Campesina</div>
+                    <div class="text-xs text-gray-500 uppercase font-black">Ruta Sábado</div>
                     <div>Próximo Sábado</div>
                   </div>
                 </label>
               </div>
             </div>
 
-            <!-- 3. Modalidad de Entrega -->
+            <!-- Modalidad de Entrega -->
             <div class="space-y-3">
               <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Modalidad de Entrega</label>
               
-              <!-- Opción 1: Punto Aliado ($0) -->
+              <!-- Punto Aliado ($0) -->
               <label class="flex items-start gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all border-agro-700 bg-agro-50/60" id="label-mod-aliado">
                 <input type="radio" name="modalidad_entrega" value="PUNTO_ALIADO" checked onchange="app.toggleDeliveryMode('PUNTO_ALIADO')" class="mt-1 text-agro-700 focus:ring-agro-600" />
                 <div class="flex-1">
@@ -295,21 +313,20 @@
                     <span class="font-bold text-sm text-agro-900">Retiro en Tienda de Barrio Aliada</span>
                     <span class="bg-agro-800 text-white font-extrabold text-[11px] px-2 py-0.5 rounded-full">$0 COP Envío</span>
                   </div>
-                  <p class="text-xs text-gray-600 mt-1">Sin costo adicional. Retira tu canasta directamente en el minimercado de tu barrio.</p>
+                  <p class="text-xs text-gray-600 mt-1">Sin costo de envío. Tu canasta se despacha a la tienda aliada más cercana a tu ubicación.</p>
                   
-                  <!-- Selector de Punto Aliado -->
                   <div class="mt-3" id="select-punto-aliado-wrap">
                     <select id="checkout-punto-aliado" class="w-full p-2.5 bg-white border border-gray-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-agro-600">
                       <!-- Llenado dinámico -->
                     </select>
-                    <div id="punto-aliado-info-badge" class="mt-2 text-[11px] text-gray-600 bg-white p-2 rounded border border-gray-200">
+                    <div id="punto-aliado-info-badge" class="mt-2 text-[11px] text-gray-600 bg-white p-2.5 rounded border border-gray-200">
                       <!-- Info del punto -->
                     </div>
                   </div>
                 </div>
               </label>
 
-              <!-- Opción 2: Domicilio ($4.500) -->
+              <!-- Domicilio ($4.500) -->
               <label class="flex items-start gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all border-gray-200 bg-white hover:border-gray-300" id="label-mod-domicilio">
                 <input type="radio" name="modalidad_entrega" value="DOMICILIO" onchange="app.toggleDeliveryMode('DOMICILIO')" class="mt-1 text-agro-700 focus:ring-agro-600" />
                 <div class="flex-1">
@@ -317,11 +334,10 @@
                     <span class="font-bold text-sm text-gray-900">Domicilio Urbano Agrupado</span>
                     <span class="bg-gray-100 text-gray-700 font-extrabold text-[11px] px-2 py-0.5 rounded-full">$4.500 COP</span>
                   </div>
-                  <p class="text-xs text-gray-600 mt-1">Entrega directa en la puerta de tu hogar o restaurante en Cali.</p>
+                  <p class="text-xs text-gray-600 mt-1">Entrega directa en la puerta de tu hogar, café o restaurante.</p>
                   
-                  <!-- Campo dirección -->
                   <div class="mt-3 hidden" id="input-direccion-wrap">
-                    <input type="text" id="checkout-direccion" placeholder="Ej: Carrera 78 #10-45, Barrio Capri, Cali"
+                    <input type="text" id="checkout-direccion" placeholder="Ej: Carrera 54 #72-35, Barrio El Prado, Barranquilla"
                       class="w-full p-2.5 bg-gray-50 border border-gray-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-agro-600" />
                   </div>
                 </div>
@@ -332,49 +348,48 @@
           </div>
         </div>
 
-        <!-- COLUMNA DERECHA: RECUADRO DE TRANSPARENCIA ECONÓMICA -->
+        <!-- Columna Derecha: Recuadro de Transparencia Económica -->
         <div class="lg:col-span-5 space-y-6">
           <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-agro-700 shadow-lg space-y-6 relative overflow-hidden">
             
             <div class="flex items-center justify-between border-b border-gray-100 pb-4">
-              <h3 class="font-extrabold text-xl text-agro-900 flex items-center gap-2">
+              <h3 class="font-black text-xl text-agro-900 flex items-center gap-2">
                 <i class="fa-solid fa-scale-balanced text-agro-700"></i> Desglose Transparente
               </h3>
-              <span class="bg-yellow-100 text-yellow-900 text-[10px] font-black px-2 py-0.5 rounded uppercase">Comercio Justo</span>
+              <span class="bg-yellow-100 text-yellow-900 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">Comercio Justo</span>
             </div>
 
             <p class="text-xs text-gray-500 leading-relaxed">
-              En <strong>DelCampoApp</strong> eliminamos intermediarios abusivos. Puedes ver con total claridad a dónde va cada peso de tu compra:
+              En <strong>DelCampoApp</strong> eliminamos intermediarios especulativos para que el valor de tu compra beneficie a quien realmente cultiva:
             </p>
 
-            <!-- Desglose de costos -->
             <div class="space-y-3 text-sm">
               <!-- Campesino 93% -->
-              <div class="flex items-center justify-between p-3 rounded-xl bg-agro-50 border border-agro-200">
+              <div class="flex items-center justify-between p-3.5 rounded-xl bg-agro-50 border border-agro-200">
                 <div>
                   <div class="font-bold text-agro-950 flex items-center gap-1.5">
-                    <i class="fa-solid fa-hand-holding-dollar text-agro-700"></i> Pago Directo al Campesino
+                    <i class="fa-solid fa-hand-holding-dollar text-agro-700"></i> Pago Directo al Productor
                   </div>
                   <div class="text-[11px] text-agro-700 font-medium">93% del subtotal de alimentos</div>
                 </div>
-                <span id="transparency-campesino" class="font-extrabold text-agro-900 text-base">$0 COP</span>
+                <span id="transparency-campesino" class="font-black text-agro-900 text-base">$0 COP</span>
               </div>
 
               <!-- Plataforma 7% -->
-              <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-200">
+              <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 border border-gray-200">
                 <div>
                   <div class="font-semibold text-gray-800 flex items-center gap-1.5">
-                    <i class="fa-solid fa-cloud text-gray-500"></i> Tarifa Plataforma Cloud
+                    <i class="fa-solid fa-server text-gray-500"></i> Plataforma y Operaciones Cloud
                   </div>
-                  <div class="text-[11px] text-gray-500 font-medium">7% operación, servidores y logística</div>
+                  <div class="text-[11px] text-gray-500 font-medium">7% servidores, logística y soporte</div>
                 </div>
                 <span id="transparency-comision" class="font-bold text-gray-700 text-sm">$0 COP</span>
               </div>
 
-              <!-- Costo de envío -->
-              <div class="flex items-center justify-between px-3 py-2 text-gray-700">
+              <!-- Costo envío -->
+              <div class="flex items-center justify-between px-3.5 py-2 text-gray-700">
                 <span class="flex items-center gap-1.5 font-medium">
-                  <i class="fa-solid fa-truck text-gray-400"></i> Costo de Entrega / Envío
+                  <i class="fa-solid fa-truck text-gray-400"></i> Costo de Entrega / Despacho
                 </span>
                 <span id="transparency-envio" class="font-bold text-gray-800">$0 COP</span>
               </div>
@@ -384,35 +399,35 @@
               <!-- Total a pagar -->
               <div class="flex items-baseline justify-between pt-1">
                 <div>
-                  <span class="text-xs uppercase font-extrabold tracking-wider text-gray-500">Total a Pagar</span>
+                  <span class="text-xs uppercase font-black tracking-wider text-gray-500">Total a Pagar</span>
                   <div class="text-[11px] text-gray-400">Pago programado contra entrega</div>
                 </div>
                 <span id="transparency-total" class="text-3xl font-black text-agro-900">$0 COP</span>
               </div>
 
-              <!-- Ahorro vs Supermercado -->
-              <div class="p-3 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl flex items-center justify-between">
+              <!-- Ahorro Grandes Superficies -->
+              <div class="p-3.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <i class="fa-solid fa-piggy-bank text-amber-600 text-xl"></i>
                   <div>
-                    <div class="text-xs font-bold text-amber-900">Ahorro frente a supermercado:</div>
-                    <div class="text-[11px] text-amber-700">Comparado con cadenas en Cali</div>
+                    <div class="text-xs font-bold text-amber-900">Ahorro frente a Grandes Superficies:</div>
+                    <div class="text-[11px] text-amber-700">Comparado con cadenas de supermercados</div>
                   </div>
                 </div>
                 <span id="transparency-ahorro" class="font-black text-amber-900 text-base">$0 COP</span>
               </div>
             </div>
 
-            <!-- Botón Confirmar Pedido -->
+            <!-- Botón Confirmar -->
             <button onclick="app.submitOrder()" id="btn-submit-order"
-              class="w-full py-4 bg-agro-800 hover:bg-agro-900 text-white font-extrabold text-base rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
+              class="w-full py-4 bg-agro-800 hover:bg-agro-900 text-white font-black text-base rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
               <i class="fa-solid fa-circle-check"></i>
               <span>Confirmar Pedido Programado</span>
             </button>
 
             <div class="text-center text-[11px] text-gray-400 flex items-center justify-center gap-2">
               <i class="fa-solid fa-lock text-green-600"></i>
-              <span>Transacción segura en SQLite · Sin cobro oculto</span>
+              <span>Transacción protegida · Pago seguro</span>
             </div>
 
           </div>
@@ -423,37 +438,36 @@
     </section>
 
     <!-- ============================================================================== -->
-    <!-- VISTA 3: PANEL CAMPESINO DE BAJA CARGA COGNITIVA (Rol: Productor Agrícola) -->
+    <!-- SECCIÓN 3: PORTAL DEL PRODUCTOR (Publicación de Cosechas e Inventario) -->
     <!-- ============================================================================== -->
     <section id="view-campesino" class="hidden space-y-8">
       
-      <!-- ENCABEZADO PANEL CAMPESINO DE ALTA ACCESIBILIDAD -->
-      <div class="bg-gradient-to-r from-agro-800 to-agro-900 rounded-3xl p-6 sm:p-8 text-white shadow-lg space-y-4">
+      <div class="bg-gradient-to-r from-agro-800 to-agro-900 rounded-3xl p-6 sm:p-8 text-white shadow-lg space-y-5">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="space-y-1">
             <div class="inline-flex items-center gap-1.5 bg-yellow-400 text-agro-950 font-black text-xs px-3 py-1 rounded-full uppercase">
-              <i class="fa-solid fa-seedling"></i> Modo Campesino · Baja Carga Cognitiva
+              <i class="fa-solid fa-tractor"></i> Portal de Productores
             </div>
-            <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Panel de Cosechas y Ventas</h2>
-            <p class="text-agro-100 text-sm">Publica tus cosechas con fotos grandes y botones sencillos. Sin complicaciones.</p>
+            <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Gestión de Cosechas y Ventas</h2>
+            <p class="text-agro-100 text-sm">Publica tus cosechas disponibles y actualiza tu inventario en tiempo real.</p>
           </div>
 
-          <!-- Selector de Finca Activa para el Agricultor -->
-          <div class="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20">
+          <!-- Selector de Finca Activa -->
+          <div class="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20">
             <label class="block text-[11px] font-bold uppercase tracking-wider text-yellow-300 mb-1">
-              <i class="fa-solid fa-tractor mr-1"></i> Selecciona tu Finca:
+              <i class="fa-solid fa-location-dot mr-1"></i> Finca / Productor Activo:
             </label>
             <select id="farmer-active-finca-select" onchange="app.switchFarmerFinca(this.value)"
               class="w-full bg-white text-agro-950 font-bold text-sm p-2.5 rounded-xl border-none focus:ring-2 focus:ring-yellow-400 cursor-pointer">
-              <!-- Opciones dinámicas -->
+              <!-- Dinámico -->
             </select>
           </div>
         </div>
 
-        <!-- Tarjetas de resumen del Campesino -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+        <!-- Tarjetas de métricas -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-1">
           <div class="bg-white/10 backdrop-blur-sm p-4 rounded-2xl border border-white/15">
-            <div class="text-xs text-agro-200 font-semibold">Finca & Vereda</div>
+            <div class="text-xs text-agro-200 font-semibold">Ubicación & Región</div>
             <div id="farmer-stat-vereda" class="text-sm sm:text-base font-extrabold text-white truncate">-</div>
           </div>
           <div class="bg-white/10 backdrop-blur-sm p-4 rounded-2xl border border-white/15">
@@ -471,50 +485,50 @@
         </div>
       </div>
 
-      <!-- BOTÓN GIGANTE ACCIÓN: PUBLICAR NUEVA COSECHA -->
+      <!-- Botón de acción: Publicar nueva cosecha -->
       <div class="flex items-center justify-between">
         <h3 class="text-2xl font-black text-gray-900 flex items-center gap-2">
-          <i class="fa-solid fa-carrot text-agro-700"></i> Mis Cosechas en Catálogo
+          <i class="fa-solid fa-boxes-stacked text-agro-700"></i> Mis Cosechas Disponibles
         </h3>
         <button onclick="app.openNewProductModal()"
-          class="btn-campesino bg-agro-700 hover:bg-agro-800 text-white cursor-pointer">
+          class="btn-campesino bg-agro-700 hover:bg-agro-800 text-white cursor-pointer shadow-md">
           <i class="fa-solid fa-plus-circle text-2xl text-yellow-300"></i>
-          <span>Publicar Nueva Cosecha</span>
+          <span>Publicar Cosecha Disponible</span>
         </button>
       </div>
 
-      <!-- LISTA DE COSECHAS DEL CAMPESINO (Con botones grandes para cambiar stock) -->
+      <!-- Grid de Cosechas con controles de stock -->
       <div id="farmer-products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Renderizado dinámicamente vía app.js -->
+        <!-- Renderizado dinámicamente -->
       </div>
 
     </section>
 
     <!-- ============================================================================== -->
-    <!-- VISTA 4: HOJA DE RUTA LOGÍSTICA Y MONITOR SQLITE (Rol: Aliado / Evaluador) -->
+    <!-- SECCIÓN 4: CENTRO DE OPERACIONES Y RUTAS (Gestión y Monitoreo de Despachos) -->
     <!-- ============================================================================== -->
     <section id="view-logistica" class="hidden space-y-8">
       
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-4">
         <div>
           <div class="inline-flex items-center gap-1.5 bg-agro-100 text-agro-800 font-extrabold text-xs px-2.5 py-1 rounded-full uppercase mb-1">
-            <i class="fa-solid fa-server"></i> Panel Técnico y Logístico
+            <i class="fa-solid fa-network-wired"></i> Panel de Operaciones Nacionales
           </div>
-          <h2 class="text-3xl font-black text-agro-900">Hoja de Ruta y Monitor de Base de Datos</h2>
-          <p class="text-sm text-gray-600">Visualización en vivo de pedidos programados y estado de la base de datos embebida SQLite3.</p>
+          <h2 class="text-3xl font-black text-agro-900">Centro de Rutas y Monitor de Despachos</h2>
+          <p class="text-sm text-gray-600">Control logístico de pedidos consolidados y monitor de la infraestructura de datos.</p>
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="app.refreshLogisticaData()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl flex items-center gap-2">
-            <i class="fa-solid fa-arrows-rotate text-agro-700"></i> Actualizar en Vivo
+          <button onclick="app.refreshLogisticaData()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl flex items-center gap-2 shadow-2xs">
+            <i class="fa-solid fa-arrows-rotate text-agro-700"></i> Actualizar Rutas
           </button>
           <a href="/api/health" target="_blank" class="px-4 py-2 bg-agro-800 hover:bg-agro-900 text-white font-bold text-xs rounded-xl flex items-center gap-2 shadow-sm">
-            <i class="fa-solid fa-code"></i> Ver JSON /api/health
+            <i class="fa-solid fa-code"></i> Ver /api/health
           </a>
         </div>
       </div>
 
-      <!-- MONITOR TÉCNICO DE LA BASE DE DATOS SQLITE -->
+      <!-- Monitor Técnico del Motor de Datos -->
       <div class="bg-gray-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-gray-800 space-y-6">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-gray-800 pb-4">
           <div class="flex items-center gap-3">
@@ -523,57 +537,37 @@
             </div>
             <div>
               <div class="font-bold text-base flex items-center gap-2">
-                <span>Motor de Base de Datos Embebido</span>
+                <span>Infraestructura de Datos Embebida</span>
                 <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-green-500/20 text-green-400 border border-green-500/30">
                   <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> ONLINE
                 </span>
               </div>
-              <div class="text-xs text-gray-400 font-mono" id="db-monitor-engine">SQLite3 (node:sqlite)</div>
+              <div class="text-xs text-gray-400 font-mono" id="db-monitor-engine">SQLite3 (Node native)</div>
             </div>
           </div>
           
           <div class="text-right text-xs text-gray-400">
-            <div>Ubicación física:</div>
+            <div>Almacenamiento físico:</div>
             <div class="font-mono text-green-400 text-[11px] truncate max-w-xs md:max-w-md" id="db-monitor-file">database/delcampoapp.db</div>
           </div>
         </div>
 
-        <!-- Métricas de tablas en vivo -->
         <div>
-          <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Registros en Tablas Relacionales (DDL 6 Tablas):</div>
+          <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Registros Activos en Tablas Relacionales:</div>
           <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="db-table-metrics">
-            <!-- Rellenado dinámico -->
-          </div>
-        </div>
-
-        <!-- Endpoints REST activos -->
-        <div class="bg-black/40 rounded-2xl p-4 border border-gray-800 text-xs font-mono text-gray-300 space-y-2">
-          <div class="font-bold text-gray-400 uppercase tracking-wider text-[11px] flex items-center justify-between">
-            <span>Endpoints RESTful Verificados:</span>
-            <span class="text-green-400">HTTP 200 OK</span>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 text-[11px]">
-            <div><span class="text-blue-400 font-bold">GET</span> /api/health <span class="text-gray-500">· Estado y motor BD</span></div>
-            <div><span class="text-blue-400 font-bold">GET</span> /api/productos <span class="text-gray-500">· Catálogo y trazabilidad</span></div>
-            <div><span class="text-green-400 font-bold">POST</span> /api/productos <span class="text-gray-500">· Publicación de cosecha</span></div>
-            <div><span class="text-yellow-400 font-bold">PATCH</span> /api/productos/:id/stock <span class="text-gray-500">· Control de stock</span></div>
-            <div><span class="text-blue-400 font-bold">GET</span> /api/fincas <span class="text-gray-500">· Trazabilidad campesina</span></div>
-            <div><span class="text-blue-400 font-bold">GET</span> /api/puntos-aliados <span class="text-gray-500">· Tiendas de barrio</span></div>
-            <div><span class="text-blue-400 font-bold">GET</span> /api/pedidos <span class="text-gray-500">· Órdenes programadas</span></div>
-            <div><span class="text-green-400 font-bold">POST</span> /api/pedidos <span class="text-gray-500">· Transacción SQL atómica</span></div>
+            <!-- Dinámico -->
           </div>
         </div>
       </div>
 
-      <!-- TABLA EN VIVO DE PEDIDOS PROGRAMADOS -->
-      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden space-y-4 p-6">
+      <!-- Tabla de Pedidos Programados -->
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden space-y-4 p-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h3 class="font-bold text-xl text-gray-900 flex items-center gap-2">
-            <i class="fa-solid fa-clipboard-list text-agro-700"></i> Pedidos Programados Almacenados en SQLite
+            <i class="fa-solid fa-clipboard-list text-agro-700"></i> Despachos y Pedidos Semanales
           </h3>
-          <!-- Filtro por estado -->
           <div class="flex items-center gap-2">
-            <label class="text-xs font-semibold text-gray-500">Filtrar:</label>
+            <label class="text-xs font-semibold text-gray-500">Filtrar Estado:</label>
             <select id="orders-filter-status" onchange="app.renderOrdersTable()" class="text-xs font-bold p-2 bg-gray-50 border border-gray-300 rounded-lg">
               <option value="TODOS">Todos los estados</option>
               <option value="PROGRAMADO">PROGRAMADO</option>
@@ -583,24 +577,23 @@
           </div>
         </div>
 
-        <!-- Tabla responsiva -->
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs sm:text-sm">
             <thead class="bg-gray-50 border-b border-gray-200 text-gray-600 font-bold uppercase tracking-wider text-[11px]">
               <tr>
                 <th class="py-3 px-4"># Pedido</th>
-                <th class="py-3 px-4">Fecha Programada</th>
+                <th class="py-3 px-4">Ruta Semanal</th>
                 <th class="py-3 px-4">Comprador</th>
-                <th class="py-3 px-4">Modalidad & Destino</th>
-                <th class="py-3 px-4">Cosechas (Ítems)</th>
+                <th class="py-3 px-4">Destino / Retiro</th>
+                <th class="py-3 px-4">Cosechas</th>
                 <th class="py-3 px-4">Transparencia (93% / 7%)</th>
                 <th class="py-3 px-4">Total</th>
                 <th class="py-3 px-4">Estado</th>
-                <th class="py-3 px-4 text-center">Avanzar Estado</th>
+                <th class="py-3 px-4 text-center">Acción Logística</th>
               </tr>
             </thead>
             <tbody id="orders-table-body" class="divide-y divide-gray-100">
-              <!-- Renderizado dinámicamente vía app.js -->
+              <!-- Dinámico -->
             </tbody>
           </table>
         </div>
@@ -611,7 +604,7 @@
   </main>
 
   <!-- ============================================================================== -->
-  <!-- MODAL 1: TRAZABILIDAD DE ORIGEN DEL CULTIVO -->
+  <!-- MODAL: CONOCER LA FINCA Y TRAZABILIDAD DEL CULTIVO -->
   <!-- ============================================================================== -->
   <div id="modal-traceability" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200 p-6 sm:p-8 space-y-6">
@@ -622,8 +615,8 @@
             <i class="fa-solid fa-map-location-dot"></i>
           </div>
           <div>
-            <span class="bg-agro-800 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Trazabilidad Verificada</span>
-            <h3 id="modal-trace-crop-name" class="text-2xl font-black text-agro-950">-</h3>
+            <span class="bg-agro-800 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase" id="modal-trace-region-badge">Caribe y Atlántico</span>
+            <h3 id="modal-trace-crop-name" class="text-2xl font-black text-agro-950 mt-0.5">-</h3>
           </div>
         </div>
         <button onclick="app.closeModal('modal-traceability')" class="text-gray-400 hover:text-gray-700 p-2 text-xl">
@@ -631,21 +624,19 @@
         </button>
       </div>
 
-      <!-- Datos del productor y finca -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-1">
-          <div class="text-xs text-gray-500 font-semibold uppercase">Agricultor(a) Responsable:</div>
+          <div class="text-xs text-gray-500 font-semibold uppercase">Productor(a) Responsable:</div>
           <div id="modal-trace-farmer" class="font-extrabold text-agro-900 text-base">-</div>
           <div id="modal-trace-phone" class="text-xs text-gray-600"><i class="fa-solid fa-phone mr-1"></i> -</div>
         </div>
         <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-1">
-          <div class="text-xs text-gray-500 font-semibold uppercase">Finca & Vereda:</div>
+          <div class="text-xs text-gray-500 font-semibold uppercase">Finca & Municipio:</div>
           <div id="modal-trace-farm" class="font-extrabold text-agro-900 text-base">-</div>
           <div id="modal-trace-location" class="text-xs text-gray-600"><i class="fa-solid fa-location-dot mr-1 text-red-500"></i> -</div>
         </div>
       </div>
 
-      <!-- Datos agroecológicos -->
       <div class="grid grid-cols-3 gap-3 text-center">
         <div class="bg-agro-50/60 p-3 rounded-xl border border-agro-200">
           <div class="text-[11px] text-agro-700 font-bold">Altitud Cultivo</div>
@@ -661,46 +652,44 @@
         </div>
       </div>
 
-      <!-- Historia del campesino -->
       <div class="space-y-2">
         <h4 class="font-bold text-sm text-gray-900 uppercase tracking-wider flex items-center gap-2">
-          <i class="fa-solid fa-book-open text-agro-700"></i> Historia y Compromiso del Productor
+          <i class="fa-solid fa-book-open text-agro-700"></i> Historia y Prácticas Agrícolas
         </h4>
         <p id="modal-trace-story" class="text-sm text-gray-600 leading-relaxed bg-amber-50/50 p-4 rounded-2xl border border-amber-200/60">
           -
         </p>
       </div>
 
-      <!-- Sello de 0% intermediarios -->
       <div class="bg-gradient-to-r from-agro-800 to-agro-900 text-white p-4 rounded-2xl flex items-center justify-between">
         <div class="flex items-center gap-3">
           <i class="fa-solid fa-award text-yellow-300 text-3xl"></i>
           <div>
-            <div class="font-black text-sm">Sello DelCampoApp: 0% Intermediación</div>
-            <div class="text-xs text-agro-200">El 93% del valor pagado ingresa directamente a esta familia rural.</div>
+            <div class="font-black text-sm">Garantía DelCampoApp: 0% Intermediación</div>
+            <div class="text-xs text-agro-200">El 93% del precio cancelado ingresa directamente a esta familia productora.</div>
           </div>
         </div>
       </div>
 
       <div class="text-right">
         <button onclick="app.closeModal('modal-traceability')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 font-bold text-sm text-gray-700 rounded-xl">
-          Cerrar Ficha
+          Cerrar
         </button>
       </div>
     </div>
   </div>
 
   <!-- ============================================================================== -->
-  <!-- MODAL 2: PUBLICAR NUEVA COSECHA (Panel Campesino) -->
+  <!-- MODAL: PUBLICAR COSECHA DISPONIBLE (Portal del Productor) -->
   <!-- ============================================================================== -->
   <div id="modal-new-product" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-gray-200 p-6 sm:p-8 space-y-6">
       
       <div class="flex items-center justify-between border-b border-gray-100 pb-4">
         <div>
-          <span class="bg-amber-100 text-amber-900 text-[10px] font-black px-2 py-0.5 rounded uppercase">Baja Carga Cognitiva</span>
+          <span class="bg-agro-100 text-agro-800 text-[10px] font-black px-2 py-0.5 rounded uppercase">Portal del Productor</span>
           <h3 class="text-2xl font-black text-agro-950 flex items-center gap-2 mt-1">
-            <i class="fa-solid fa-seedling text-agro-700"></i> Publicar Nueva Cosecha
+            <i class="fa-solid fa-seedling text-agro-700"></i> Publicar Cosecha Disponible
           </h3>
         </div>
         <button onclick="app.closeModal('modal-new-product')" class="text-gray-400 hover:text-gray-700 p-2 text-xl">
@@ -710,7 +699,6 @@
 
       <form id="form-new-product" onsubmit="app.submitNewProduct(event)" class="space-y-4">
         
-        <!-- Finca -->
         <div>
           <label class="block text-xs font-bold uppercase text-gray-700 mb-1">1. Finca donde se cosechó:</label>
           <select id="np-finca-id" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-agro-700">
@@ -718,39 +706,37 @@
           </select>
         </div>
 
-        <!-- Nombre de la cosecha con presets rápidos -->
         <div>
-          <label class="block text-xs font-bold uppercase text-gray-700 mb-1">2. ¿Qué cosechó hoy?:</label>
-          <input type="text" id="np-nombre" required placeholder="Ej: Tomate Chonto, Papa Criolla, Plátano..."
+          <label class="block text-xs font-bold uppercase text-gray-700 mb-1">2. Alimento cosechado:</label>
+          <input type="text" id="np-nombre" required placeholder="Ej: Yuca Criolla, Papa Pastusa, Aguacate Hass..."
             class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-agro-700" />
           
-          <!-- Botones rápidos de selección de producto típico -->
+          <!-- Presets con imágenes reales -->
           <div class="flex flex-wrap gap-1.5 mt-2">
-            <button type="button" onclick="app.presetCrop('Tomate Chonto Fresco', 'Hortalizas', 'Kilo', 3200, 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop')"
-              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🍅 Tomate</button>
-            <button type="button" onclick="app.presetCrop('Cebolla Junca Larga', 'Hortalizas', 'Atado 1kg', 2800, 'https://images.unsplash.com/photo-1580201092675-a0a6a6cafbb1?w=600&auto=format&fit=crop')"
-              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🧅 Cebolla</button>
-            <button type="button" onclick="app.presetCrop('Papa Amarilla Criolla', 'Tubérculos', 'Bolsa 2kg', 5500, 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=600&auto=format&fit=crop')"
-              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🥔 Papa</button>
-            <button type="button" onclick="app.presetCrop('Aguacate Papelillo', 'Frutas', 'Kilo', 6000, 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=600&auto=format&fit=crop')"
-              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🥑 Aguacate</button>
-            <button type="button" onclick="app.presetCrop('Huevos Criollos Campo', 'Lácteos y Huevos', 'Cubeta x30', 18000, 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=600&auto=format&fit=crop')"
-              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🥚 Huevos</button>
-            <button type="button" onclick="app.presetCrop('Plátano Hartón Verde', 'Tubérculos', 'Kilo', 3000, 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?w=600&auto=format&fit=crop')"
-              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🍌 Plátano</button>
-            <button type="button" onclick="app.presetCrop('Queso Fresco Campesino', 'Lácteos y Huevos', 'Bloque 500g', 8500, 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=600&auto=format&fit=crop')"
-              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🧀 Queso</button>
+            <button type="button" onclick="app.presetCrop('Yuca Criolla Fresca', 'Tubérculos', 'Bolsa 2kg', 2800, 'https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600&auto=format&fit=crop')"
+              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🍠 Yuca Caribe</button>
+            <button type="button" onclick="app.presetCrop('Ñame Espino Sabanero', 'Tubérculos', 'Kilo', 3800, 'https://images.unsplash.com/photo-1597362925123-77861d3fbac7?w=600&auto=format&fit=crop')"
+              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🥔 Ñame</button>
+            <button type="button" onclick="app.presetCrop('Queso Costeño Campesino', 'Lácteos y Huevos', 'Bloque 500g', 9500, 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=600&auto=format&fit=crop')"
+              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🧀 Queso Costeño</button>
+            <button type="button" onclick="app.presetCrop('Limón Tahití Extra', 'Frutas', 'Kilo', 3500, 'https://images.unsplash.com/photo-1590502593747-42a996133562?w=600&auto=format&fit=crop')"
+              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🍋 Limón Tahití</button>
+            <button type="button" onclick="app.presetCrop('Papa Pastusa Lavada', 'Tubérculos', 'Bolsa 2kg', 5200, 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=600&auto=format&fit=crop')"
+              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🥔 Papa Pastusa</button>
+            <button type="button" onclick="app.presetCrop('Fresas de Altura', 'Frutas', 'Canastilla 500g', 5800, 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=600&auto=format&fit=crop')"
+              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🍓 Fresas</button>
+            <button type="button" onclick="app.presetCrop('Aguacate Hass Seleccionado', 'Frutas', 'Kilo', 6500, 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=600&auto=format&fit=crop')"
+              class="text-[11px] bg-gray-100 hover:bg-agro-100 hover:text-agro-900 px-2 py-1 rounded-lg font-bold">🥑 Aguacate Hass</button>
           </div>
         </div>
 
-        <!-- Categoría y Unidad -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold uppercase text-gray-700 mb-1">3. Categoría:</label>
             <select id="np-categoria" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-agro-700">
-              <option value="Hortalizas">Hortalizas</option>
-              <option value="Frutas">Frutas</option>
               <option value="Tubérculos">Tubérculos</option>
+              <option value="Frutas">Frutas</option>
+              <option value="Hortalizas">Hortalizas</option>
               <option value="Lácteos y Huevos">Lácteos y Huevos</option>
               <option value="Granos">Granos</option>
             </select>
@@ -759,51 +745,47 @@
             <label class="block text-xs font-bold uppercase text-gray-700 mb-1">4. Unidad de Medida:</label>
             <select id="np-unidad" required class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-agro-700">
               <option value="Kilo">Kilo</option>
-              <option value="Libra">Libra</option>
-              <option value="Atado 1kg">Atado 1kg</option>
-              <option value="Unidad">Unidad</option>
               <option value="Bolsa 2kg">Bolsa 2kg</option>
-              <option value="Cubeta x30">Cubeta x30</option>
+              <option value="Atado 1kg">Atado 1kg</option>
+              <option value="Canastilla 500g">Canastilla 500g</option>
               <option value="Bloque 500g">Bloque 500g</option>
+              <option value="Cubeta x30">Cubeta x30</option>
+              <option value="Unidad">Unidad</option>
               <option value="Bulto 25kg">Bulto 25kg</option>
             </select>
           </div>
         </div>
 
-        <!-- Precio y Cantidad (Stock) -->
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">5. Tu Precio Justo ($ COP):</label>
+            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">5. Precio Justo ($ COP):</label>
             <input type="number" id="np-precio" required min="500" step="100" placeholder="Ej: 3500"
               class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-bold text-agro-900 focus:ring-2 focus:ring-agro-700" />
           </div>
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">6. Cantidad Disponible:</label>
+            <label class="block text-xs font-bold uppercase text-gray-700 mb-1">6. Stock Disponible:</label>
             <input type="number" id="np-stock" required min="1" step="1" placeholder="Ej: 50"
               class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-bold text-gray-900 focus:ring-2 focus:ring-agro-700" />
           </div>
         </div>
 
-        <!-- Momento de la cosecha -->
         <div>
           <label class="block text-xs font-bold uppercase text-gray-700 mb-1">7. Momento de la Cosecha:</label>
           <input type="text" id="np-fecha-cosecha" placeholder="Ej: Hoy a las 6:00 AM"
             class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-agro-700" />
         </div>
 
-        <!-- Foto URL -->
         <div>
-          <label class="block text-xs font-bold uppercase text-gray-700 mb-1">8. Enlace de la Foto (Opcional):</label>
+          <label class="block text-xs font-bold uppercase text-gray-700 mb-1">8. URL de Fotografía del Alimento:</label>
           <input type="url" id="np-imagen-url" placeholder="https://..."
             class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-xs font-mono focus:ring-2 focus:ring-agro-700" />
         </div>
 
-        <!-- Botón Guardar Cosecha -->
         <div class="pt-2">
           <button type="submit"
-            class="w-full py-4 bg-agro-700 hover:bg-agro-800 text-white font-extrabold text-lg rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
+            class="w-full py-4 bg-agro-700 hover:bg-agro-800 text-white font-extrabold text-base rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
             <i class="fa-solid fa-cloud-arrow-up text-xl text-yellow-300"></i>
-            <span>Guardar y Publicar en el Catálogo</span>
+            <span>Publicar Cosecha en el Mercado</span>
           </button>
         </div>
 
@@ -812,7 +794,7 @@
   </div>
 
   <!-- ============================================================================== -->
-  <!-- MODAL 3: COMPROBANTE DE PEDIDO CONFIRMADO (Éxito) -->
+  <!-- MODAL: COMPROBANTE DE PEDIDO PROGRAMADO -->
   <!-- ============================================================================== -->
   <div id="modal-order-success" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border-2 border-agro-700 p-6 sm:p-8 space-y-6 text-center">
@@ -822,9 +804,9 @@
       </div>
 
       <div class="space-y-1">
-        <span class="bg-green-100 text-green-900 text-xs font-black px-3 py-1 rounded-full uppercase">Almacenado en SQLite</span>
-        <h3 class="text-2xl font-black text-agro-950">¡Pedido Programado Exitoso!</h3>
-        <p class="text-xs text-gray-600">Tu orden ha sido registrada en la base de datos de DelCampoApp y entrará a la ruta semanal.</p>
+        <span class="bg-green-100 text-green-900 text-xs font-black px-3 py-1 rounded-full uppercase">Orden Programada</span>
+        <h3 class="text-2xl font-black text-agro-950">¡Pedido Confirmado Exitosamente!</h3>
+        <p class="text-xs text-gray-600">Tu orden ha sido registrada y consolidada para la próxima ruta semanal de distribución.</p>
       </div>
 
       <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 text-left space-y-2 text-xs">
@@ -833,7 +815,7 @@
           <span id="receipt-order-id" class="font-mono text-base font-black">#0</span>
         </div>
         <div class="flex justify-between">
-          <span class="text-gray-500">Fecha Programada:</span>
+          <span class="text-gray-500">Ruta Semanal:</span>
           <span id="receipt-date" class="font-bold text-gray-800">-</span>
         </div>
         <div class="flex justify-between">
@@ -845,11 +827,11 @@
           <span id="receipt-campesino">$0 COP</span>
         </div>
         <div class="flex justify-between text-gray-600">
-          <span>Tarifa Plataforma (7%):</span>
+          <span>Operación de Plataforma (7%):</span>
           <span id="receipt-comision">$0 COP</span>
         </div>
         <div class="flex justify-between text-gray-600">
-          <span>Costo de Envío:</span>
+          <span>Costo de Despacho:</span>
           <span id="receipt-envio">$0 COP</span>
         </div>
         <div class="flex justify-between font-extrabold text-base text-gray-900 border-t border-gray-200 pt-2">
@@ -861,34 +843,32 @@
       <div class="flex gap-3">
         <button onclick="app.setRole('logistica'); app.closeModal('modal-order-success')"
           class="flex-1 py-3 bg-gray-900 hover:bg-black text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2">
-          <i class="fa-solid fa-list-check"></i> Ver en Hoja de Ruta
+          <i class="fa-solid fa-route"></i> Ver Centro de Rutas
         </button>
         <button onclick="app.closeModal('modal-order-success'); app.setRole('catalogo')"
           class="flex-1 py-3 bg-agro-800 hover:bg-agro-900 text-white font-bold text-xs rounded-xl">
-          Seguir Explorando
+          Seguir en el Mercado
         </button>
       </div>
 
     </div>
   </div>
 
-  <!-- CONTENEDOR FLOTANTE DE NOTIFICACIONES (TOASTS) -->
   <div id="toast-container"></div>
 
   <!-- FOOTER -->
   <footer class="bg-white border-t border-gray-200 mt-12 py-8 text-xs text-gray-500">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
-        <i class="fa-solid fa-seedling text-agro-700 text-lg"></i>
-        <span><strong>DelCampoApp</strong> · Prototipo Funcional Bitácora 4 · SENA Centro ASTIN</span>
+        <i class="fa-solid fa-leaf text-agro-700 text-lg"></i>
+        <span><strong>DelCampoApp</strong> · Plataforma AgTech de Comercio Justo y Rutas Programadas de Colombia</span>
       </div>
       <div>
-        <span>Desarrollado por: <strong>Paulo Andrés De los Reyes González</strong> · Ficha 3186266</span>
+        <span>Conectando el campo colombiano con hogares, tiendas de barrio y restaurantes locales</span>
       </div>
     </div>
   </footer>
 
-  <!-- LÓGICA MODULAR DE LA APLICACIÓN -->
   <script src="js/app.js"></script>
 </body>
 </html>

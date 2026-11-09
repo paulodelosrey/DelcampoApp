@@ -1,53 +1,31 @@
-# 🌾 DelCampoApp — Plataforma Web de Comercio Justo y Rutas Programadas
+# 🌾 DelCampoApp — AgTech de Comercio Justo y Rutas Programadas
 
-![SENA ASTIN](https://img.shields.io/badge/SENA-Centro_ASTIN-39a900?style=for-the-badge&logo=sena&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-v24+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Colombia](https://img.shields.io/badge/Colombia-Cobertura_Nacional-FFCD00?style=for-the-badge&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-v22+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express.js-Backend_REST-000000?style=for-the-badge&logo=express&logoColor=white)
 ![SQLite3](https://img.shields.io/badge/SQLite3-Base_de_Datos_Embebida-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Responsive_UI-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
----
+> *"Del campo colombiano directo a tu mesa y negocio"*
 
-## 📋 Información Institucional del Proyecto
+**DelCampoApp** es una plataforma web y tecnológica (AgTech) orientada a servicios que conecta directamente a pequeños y medianos productores agrícolas de Colombia (**Región Caribe / Atlántico, Cundinamarca / Sabana y Antioquia / Eje Cafetero**) con consumidores urbanos, tiendas de barrio y restaurantes locales en las principales ciudades del país.
 
-- **Institución:** Servicio Nacional de Aprendizaje (SENA) — Centro Nacional de Asistencia Técnica a la Industria (ASTIN)
-- **Programa de Formación:** Tecnólogo en Programación de Aplicaciones y Servicios para la Nube
-- **Ficha de Caracterización:** 3186266
-- **Entregable Técnico:** Bitácora 4 — Prototipo Funcional de la Plataforma Web
-- **Aprendiz:** Paulo Andrés De los Reyes González
-- **Año:** 2026
+Elimina intermediarios especulativos en la cadena de suministro agroalimentario y consolida rutas semanales de distribución agrupada, garantizando un precio justo y digno para el agricultor y ahorros significativos para el comprador.
 
 ---
 
-## 🎯 Descripción del Proyecto
+## 🌟 Pilares y Características Clave
 
-**DelCampoApp** es una plataforma web orientada a servicios que conecta de forma directa a pequeños y medianos productores agrícolas del Valle del Cauca (campesinos de zonas como **Tenerife en El Cerrito, Felidia en los Farallones de Cali, y Bruselas en Dagua**) con consumidores urbanos, tiendas de barrio y restaurantes locales en Cali y su área metropolitana, eliminando intermediarios abusivos y garantizando un precio justo al agricultor.
-
-### 🌟 Pilares Diferenciales del Prototipo
-
-1. **Panel Campesino de Baja Carga Cognitiva:**  
-   Interfaz simplificada diseñada especialmente para agricultores con botones táctiles grandes, selección fotográfica rápida, lenguaje cotidiano y control de stock en un solo clic (+10 / -5).
-2. **Catálogo Digital con Trazabilidad de Origen:**  
-   Cada producto exhibe el nombre del campesino, finca, vereda, altitud (msnm), fecha de cosecha, método agrícola (agroecológico / tradicional limpio) y sello de **0% Intermediarios**.
-3. **Módulo de Pedidos Programados y Transparencia Económica:**  
-   Los compradores programan sus entregas en rutas semanales consolidadas (Miércoles y Sábados) eligiendo entre **Retiro en Tienda de Barrio Aliada ($0 COP)** o **Domicilio Urbano Agrupado ($4.500 COP)**, visualizando el desglose transparente de cuánto dinero va directo a las manos del campesino (**93%**) y la comisión operativa de la plataforma (**7%**).
-4. **Selector Rápido de Rol en Vivo (Modo Demostración SENA):**  
-   Permite alternar instantáneamente entre las 4 perspectivas del sistema sin recargar la página:
-   - 🛒 *Catálogo y Trazabilidad (Comprador Urbano)*
-   - 🛍️ *Canasta de Pedido Programado (Comprador)*
-   - 🧑‍🌾 *Panel Campesino (Productor Agrícola)*
-   - 🚚 *Hoja de Ruta Logística y Monitor de Base de Datos (Evaluador SENA)*
-
----
-
-## 🎓 Competencias del Programa SENA ASTIN Aplicadas
-
-| Competencia del Programa | Evidencia Aplicada en DelCampoApp |
-| :--- | :--- |
-| **1. Administrar base de datos de acuerdo con los estándares y requisitos técnicos** | Modelo relacional en 3FN con integridad referencial (`schema.sql`), triggers y claves foráneas en SQLite3 embebido (`database/delcampoapp.db`). Poblado con datos realistas del Valle del Cauca (`seed.sql`). |
-| **2. Desarrollar componentes software de acuerdo con el diseño técnico y requisitos funcionales** | Backend RESTful modular en Node.js y Express (`server.js`) con manejo de transacciones atómicas (ACID) para la creación de órdenes y descuento de inventario. |
-| **3. Desplegar servicios y componentes en la nube de acuerdo con la arquitectura y políticas** | Arquitectura autocontenida de costo $0 con motor SQLite embebido dentro del repositorio físico, lista para su ejecución local o despliegue en contenedores / PaaS. |
-| **4. Gestionar la calidad en el desarrollo de software de acuerdo con estándares y buenas prácticas** | Frontend responsivo SPA con HTML5 semántico, TailwindCSS, retroalimentación táctil con toasts, validación de inventario y monitoreo técnico en vivo vía `/api/health`. |
+1. **Trato Directo y Transparencia Económica Real:**  
+   Cada pedido muestra con total claridad el desglose de costos: el **93%** del subtotal de alimentos ingresa directamente a las manos del productor campesino, con solo un **7%** destinado a la operación tecnológica y logística de la plataforma.
+2. **Trazabilidad de Origen Garantizada:**  
+   Cada cosecha exhibe el perfil del agricultor, finca, municipio (ej. *Baranoa - Atlántico, Subachoque - Cundinamarca, Marinilla - Antioquia*), altitud sobre el nivel del mar, tipo de cultivo (tradicional limpio, agroecológico u orgánico) y fecha exacta de recolección.
+3. **Red Nacional de Tiendas Aliadas ($0 COP Envío):**  
+   Los compradores pueden elegir entre entrega a domicilio o retiro sin costo de envío en una red de tiendas de barrio y minimercados urbanos aliados en Barranquilla, Soledad, Bogotá y Medellín.
+4. **Portal del Productor de Alta Usabilidad:**  
+   Interfaz diseñada para facilitar la publicación rápida de cosechas disponibles, ajuste de inventario en tiempo real (+10 / -5 stock) y visualización de ingresos acumulados.
+5. **Centro de Operaciones y Rutas en Vivo:**  
+   Gestión logística centralizada para coordinar los despachos semanales (Miércoles y Sábados), con avance de estados (`PROGRAMADO` → `EN_RUTA_RURAL` → `ENTREGADO`) y monitor de infraestructura de base de datos.
 
 ---
 
@@ -55,26 +33,26 @@
 
 ```text
 DelcampoApp/
-├── package.json              # Manifiesto de dependencias y scripts npm
-├── server.js                 # Servidor Express, middlewares y API RESTful
-├── README.md                 # Documentación técnica completa
+├── package.json              # Configuración de dependencias y scripts de arranque
+├── server.js                 # Servidor backend Express con API RESTful y transacciones ACID
+├── README.md                 # Documentación técnica y de producto
 ├── database/
-│   ├── db.js                 # Conector y adaptador SQLite3 (node:sqlite / better-sqlite3)
-│   ├── schema.sql            # Definición del modelo relacional (DDL)
-│   ├── seed.sql              # Datos semilla de campesinos y productos del Valle (DML)
-│   ├── init_db.js            # Script de inicialización y verificación
-│   └── delcampoapp.db        # Archivo físico de base de datos embebida (generado)
-└── public/                   # Frontend SPA servido por Express
-    ├── index.html            # Interfaz de usuario con Selector de Roles SENA
+│   ├── db.js                 # Adaptador de base de datos SQLite3 embebida (journal DELETE)
+│   ├── schema.sql            # Esquema relacional DDL (6 tablas, claves foráneas e índices)
+│   ├── seed.sql              # Cosechas y productores reales de Colombia (DML)
+│   ├── init_db.js            # Script de inicialización y verificación (`npm run init-db`)
+│   └── delcampoapp.db        # Archivo físico de base de datos embebida
+└── public/                   # Aplicación cliente SPA
+    ├── index.html            # Interfaz moderna de producto AgTech
     ├── css/
-    │   └── styles.css        # Estilos personalizados agroecológicos y modales
+    │   └── styles.css        # Estilos agroecológicos, modales y botones táctiles
     └── js/
         └── app.js            # Lógica cliente modular (Fetch API, carrito, panel)
 ```
 
 ---
 
-## 🗄️ Diagrama Entidad-Relación (Mermaid)
+## 🗄️ Modelo de Datos Relacional
 
 ```mermaid
 erDiagram
@@ -100,6 +78,7 @@ erDiagram
         int id PK
         int usuario_id FK
         string nombre_finca
+        string region
         string municipio_vereda
         string altitud_msnm
         string tipo_cultivo
@@ -123,7 +102,8 @@ erDiagram
     PUNTOS_ALIADOS {
         int id PK
         string nombre_tienda
-        string barrio_ciudad
+        string ciudad_departamento
+        string barrio
         string direccion
         string horario_retiro
     }
@@ -155,60 +135,59 @@ erDiagram
 
 ---
 
-## 🚀 Guía de Instalación y Ejecución Local
+## 🚀 Instalación y Puesta en Marcha
 
-Sigue estos 3 sencillos comandos para levantar la aplicación en cualquier sistema con Node.js instalado:
+### Prerrequisitos
+- **Node.js** v20 o superior instalado en el sistema.
 
-### 1. Instalar dependencias
+### 1. Clonar el repositorio e instalar dependencias
 ```bash
+git clone https://github.com/paulodelosrey/DelcampoApp.git
+cd DelcampoApp
 npm install
 ```
 
-### 2. Inicializar y poblar la Base de Datos SQLite embebida
+### 2. Inicializar la base de datos embebida
 ```bash
 npm run init-db
 ```
-*(Crea automáticamente el archivo físico `database/delcampoapp.db` con las 6 tablas relacionales y los datos semilla del Valle del Cauca).*
+*Aplica el esquema relacional (`schema.sql`) y carga las cosechas y productores de Atlántico, Cundinamarca y Antioquia (`seed.sql`).*
 
-### 3. Iniciar el servidor backend y la aplicación web
+### 3. Iniciar la aplicación
 ```bash
 npm start
 ```
-
-Abre en tu navegador web:
+Abre en tu navegador web preferido:  
 👉 **[http://localhost:3000](http://localhost:3000)**
 
 ---
 
 ## 📡 Especificación de la API RESTful (`/api`)
 
-| Método | Endpoint | Descripción | Parámetros / Cuerpo |
+| Método | Ruta | Descripción | Parámetros / Cuerpo |
 | :---: | :--- | :--- | :--- |
-| `GET` | `/api/health` | Estado del servidor, motor SQLite activo y conteo de tablas en vivo | Ninguno |
-| `GET` | `/api/stats` | Resumen de ventas, cosechas activas y ahorro total generado | Ninguno |
-| `GET` | `/api/productos` | Catálogo de cosechas con JOIN de trazabilidad campesina completa | `?categoria=`, `?q=` |
-| `POST` | `/api/productos` | Publica una nueva cosecha en el panel campesino | JSON con datos del producto y finca |
-| `PATCH` | `/api/productos/:id/stock` | Ajuste rápido de inventario o precio por el campesino | `{ "stock_disponible": 50 }` |
-| `GET` | `/api/fincas` | Lista de productores y fincas registradas para trazabilidad | Ninguno |
-| `GET` | `/api/puntos-aliados` | Lista de tiendas de barrio aliadas para retiro a $0 COP | Ninguno |
-| `GET` | `/api/pedidos` | Lista de órdenes programadas con desglose de ítems y transparencia | `?estado=` |
-| `POST` | `/api/pedidos` | **Transacción atómica SQL:** Crea pedido, descuenta stock y genera recibo | JSON con comprador, modalidad e ítems |
-| `PATCH` | `/api/pedidos/:id/estado` | Avanza el estado del pedido en la hoja de ruta (`PROGRAMADO` → `EN_RUTA_RURAL` → `ENTREGADO`) | `{ "estado": "EN_RUTA_RURAL" }` |
+| `GET` | `/api/health` | Estado del servicio, motor de base de datos y conteo de tablas | Ninguno |
+| `GET` | `/api/stats` | Métricas de ventas, productores activos y ahorro total generado | Ninguno |
+| `GET` | `/api/productos` | Catálogo con JOIN de trazabilidad de origen y filtros | `?categoria=`, `?region=`, `?q=` |
+| `POST` | `/api/productos` | Publica una cosecha disponible desde el Portal del Productor | JSON de cosecha y finca |
+| `PATCH` | `/api/productos/:id/stock` | Ajuste rápido de stock o precio de una cosecha | `{ "stock_disponible": 40 }` |
+| `GET` | `/api/fincas` | Lista de productores y fincas registradas | Ninguno |
+| `GET` | `/api/puntos-aliados` | Red de tiendas de barrio aliadas para retiro | Ninguno |
+| `GET` | `/api/pedidos` | Despachos y pedidos semanales programados | `?estado=` |
+| `POST` | `/api/pedidos` | **Transacción ACID:** Crea orden, descuenta inventario y desglosa costos | JSON con comprador, modalidad e ítems |
+| `PATCH` | `/api/pedidos/:id/estado` | Actualiza el estado de la orden (`PROGRAMADO` → `EN_RUTA_RURAL` → `ENTREGADO`) | `{ "estado": "EN_RUTA_RURAL" }` |
 
 ---
 
-## 🌾 Datos Semilla Incluidos (Valle del Cauca)
+## 🌾 Cobertura de Productores Incluidos
 
-- **Finca La Esperanza** (Don José Albeiro Rengifo · Vereda Tenerife, El Cerrito): 2.100 msnm. Tomate chonto, Cebolla junca, Papa amarilla criolla.
-- **Finca El Rocío** (Doña María del Carmen Valencia · Felidia, Cali): 1.850 msnm. Aguacate papelillo, Lulo de monte, Lechuga crespa, Huevos criollos de pastoreo.
-- **Granja Comunitaria Asocampo** (Asociación Asocampo Dagua · Vereda Bruselas, Dagua): 1.400 msnm. Piña oro miel, Plátano hartón, Queso campesino fresco.
-- **Puntos Aliados en Cali:** Minimercado La 14 de Alameda, Tienda Doña Martha (San Fernando), Fruver y Abarrotes El Vecino (Valle del Lili).
+- **Región Caribe / Atlántico:** *Don Rafael Mendoza* — Finca "Villa Rosa" (Baranoa / Polonuevo, Atlántico). Cosechas: Yuca criolla, Ñame espino sabanero, Plátano hartón maduro, Limón Tahití y Queso costeño fresco.
+- **Sabana y Centro:** *Doña María del Carmen Vargas* — Finca "El Rocío" (Subachoque, Cundinamarca). Cosechas: Papa pastusa seleccionada, Cebolla junca de rama, Fresas de altura y Huevos campesinos de pastoreo.
+- **Antioquia y Eje Cafetero:** *Asociación Agropecuaria Tierra Viva* (El Santuario / Marinilla, Antioquia). Cosechas: Aguacate Hass extra, Tomate chonto rojo, Lechuga hidropónica y Fríjol cargamanto fresco.
 
 ---
 
-## 👨‍💻 Autor
+## 👨‍💻 Autor / Créditos
 
-**Paulo Andrés De los Reyes González**  
-Aprendiz SENA — Centro ASTIN  
-Tecnólogo en Programación de Aplicaciones y Servicios para la Nube — Ficha 3186266  
-*Cali, Valle del Cauca, Colombia — 2026*
+Desarrollado por **Paulo Andrés De los Reyes González**  
+*Colombia — 2026*

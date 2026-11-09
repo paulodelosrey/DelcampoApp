@@ -1,13 +1,10 @@
 -- ==============================================================================
 -- DELCAMPOAPP - ESQUEMA DE BASE DE DATOS RELACIONAL (DDL)
--- Programa: Programación de Aplicaciones y Servicios para la Nube - SENA Centro ASTIN
--- Ficha: 3186266 | Bitácora 4 | Autor: Paulo Andrés De los Reyes González
--- Compatible con SQLite3 y PostgreSQL
+-- Plataforma AgTech de Comercio Justo y Rutas Programadas Nacionales
 -- ==============================================================================
 
 PRAGMA foreign_keys = ON;
 
--- Limpieza en orden inverso de dependencias para reinicialización limpia
 DROP TABLE IF EXISTS detalle_pedidos;
 DROP TABLE IF EXISTS pedidos;
 DROP TABLE IF EXISTS productos;
@@ -16,7 +13,7 @@ DROP TABLE IF EXISTS productores_fincas;
 DROP TABLE IF EXISTS usuarios;
 
 -- 1. TABLA DE USUARIOS
--- Almacena los perfiles del ecosistema (Productores agrícolas, Compradores urbanos y Tiendas aliadas)
+-- Productores agrícolas, compradores urbanos y aliados comerciales
 CREATE TABLE usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
@@ -28,20 +25,19 @@ CREATE TABLE usuarios (
     creado_en DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. TABLA DE FINCAS Y PRODUCTORES (Trazabilidad de Origen)
--- Registra los datos geográficos y la historia de los agricultores del Valle del Cauca
+-- 2. TABLA DE FINCAS Y PRODUCTORES (Trazabilidad y Cobertura Multirregional)
 CREATE TABLE productores_fincas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
     nombre_finca TEXT NOT NULL,
+    region TEXT NOT NULL,
     municipio_vereda TEXT NOT NULL,
     altitud_msnm TEXT,
     tipo_cultivo TEXT NOT NULL,
     historia_productor TEXT
 );
 
--- 3. TABLA DE PRODUCTOS (Cosechas disponibles para pedido)
--- Almacena los productos agrícolas directos de la finca con control de precios y stock
+-- 3. TABLA DE PRODUCTOS (Cosechas disponibles para despacho semanal)
 CREATE TABLE productos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     finca_id INTEGER NOT NULL REFERENCES productores_fincas(id) ON DELETE CASCADE,
@@ -56,18 +52,17 @@ CREATE TABLE productos (
     activo INTEGER DEFAULT 1
 );
 
--- 4. TABLA DE PUNTOS ALIADOS (Tiendas de barrio para recogida programada)
--- Puntos de retiro urbano en Cali que reducen a $0 el costo de entrega
+-- 4. TABLA DE PUNTOS ALIADOS (Tiendas de barrio urbanas para retiro a $0 COP)
 CREATE TABLE puntos_aliados (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre_tienda TEXT NOT NULL,
-    barrio_ciudad TEXT NOT NULL,
+    ciudad_departamento TEXT NOT NULL,
+    barrio TEXT NOT NULL,
     direccion TEXT NOT NULL,
     horario_retiro TEXT NOT NULL
 );
 
--- 5. TABLA DE PEDIDOS (Pedidos consolidados para rutas semanales)
--- Registra la orden con desglose de transparencia de costos (93% campesino / 7% plataforma)
+-- 5. TABLA DE PEDIDOS (Órdenes consolidadas con desglose 93% campesino / 7% plataforma)
 CREATE TABLE pedidos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     comprador_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE RESTRICT,
@@ -84,7 +79,6 @@ CREATE TABLE pedidos (
 );
 
 -- 6. TABLA DE DETALLE DE PEDIDOS
--- Ítems individuales dentro de cada pedido consolidado
 CREATE TABLE detalle_pedidos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     pedido_id INTEGER NOT NULL REFERENCES pedidos(id) ON DELETE CASCADE,
@@ -94,8 +88,9 @@ CREATE TABLE detalle_pedidos (
     subtotal INTEGER NOT NULL
 );
 
--- Índices para optimización de consultas frecuentes
+-- Índices de consulta frecuente
 CREATE INDEX idx_productos_finca ON productos(finca_id);
 CREATE INDEX idx_productos_categoria ON productos(categoria);
+CREATE INDEX idx_fincas_region ON productores_fincas(region);
 CREATE INDEX idx_pedidos_comprador ON pedidos(comprador_id);
 CREATE INDEX idx_detalle_pedidos_pedido ON detalle_pedidos(pedido_id);
