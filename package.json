@@ -1,0 +1,24 @@
+{
+  "name": "delcampoapp",
+  "version": "1.0.0",
+  "description": "Plataforma web de comercio justo y pedidos programados del campo a la ciudad - Bitácora 4 SENA ASTIN",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "init-db": "node database/init_db.js"
+  },
+  "keywords": [
+    "sena",
+    "delcampoapp",
+    "comercio-justo",
+    "valle-del-cauca",
+    "agroecologia",
+    "sqlite"
+  ],
+  "author": "Paulo Andrés De los Reyes González",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

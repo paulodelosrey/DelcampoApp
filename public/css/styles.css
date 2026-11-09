@@ -1,0 +1,112 @@
+/* ==============================================================================
+   DELCAMPOAPP - ESTILOS PERSONALIZADOS AGROECOLÓGICOS
+   Ficha SENA ASTIN 3186266 | Bitácora 4
+   Autor: Paulo Andrés De los Reyes González
+   ============================================================================== */
+
+:root {
+  --agro-green-900: #0a3311;
+  --agro-green-800: #134e1d;
+  --agro-green-700: #1b5e20;
+  --agro-green-600: #2e7d32;
+  --agro-green-500: #388e3c;
+  --agro-green-100: #e8f5e9;
+  --agro-amber: #f57f17;
+  --agro-earth: #4e342e;
+  --agro-cream: #fbfbfa;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: #f7f9f6;
+  color: #1f2937;
+}
+
+/* Scrollbar estética */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Transiciones suaves */
+.transition-card {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -10px rgba(27, 94, 32, 0.15);
+}
+
+/* Botones panel campesino de baja carga cognitiva */
+.btn-campesino {
+  min-height: 54px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.btn-campesino:active {
+  transform: scale(0.98);
+}
+
+/* Badges con gradiente suave */
+.badge-origen {
+  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  color: #ffffff;
+}
+
+.badge-ahorro {
+  background: linear-gradient(135deg, #e65100 0%, #f57f17 100%);
+  color: #ffffff;
+}
+
+/* Modal Blur */
+.modal-backdrop {
+  backdrop-filter: blur(6px);
+  background-color: rgba(15, 23, 42, 0.65);
+}
+
+/* Toast flotante */
+#toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toast-item {
+  animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
