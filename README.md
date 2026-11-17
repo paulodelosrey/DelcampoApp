@@ -8,6 +8,9 @@
 
 > *"Del campo colombiano directo a tu mesa y negocio"*
 
+🌐 **Prototipo Funcional en Vivo (Render Cloud):** [**https://delcampoapp.onrender.com/**](https://delcampoapp.onrender.com/)  
+📡 **Monitor de Salud API & SQLite:** [**https://delcampoapp.onrender.com/api/health**](https://delcampoapp.onrender.com/api/health)
+
 **DelCampoApp** es una plataforma web y tecnológica (AgTech) orientada a servicios que conecta directamente a pequeños y medianos productores agrícolas de Colombia (**Región Caribe / Atlántico, Cundinamarca / Sabana y Antioquia / Eje Cafetero**) con consumidores urbanos, tiendas de barrio y restaurantes locales en las principales ciudades del país.
 
 Elimina intermediarios especulativos en la cadena de suministro agroalimentario y consolida rutas semanales de distribución agrupada, garantizando un precio justo y digno para el agricultor y ahorros significativos para el comprador.
@@ -159,6 +162,9 @@ npm start
 ```
 Abre en tu navegador web preferido:  
 👉 **[http://localhost:3000](http://localhost:3000)**
+
+O accede directamente al entorno de pruebas desplegado en la nube (Render Free Tier):  
+🌐 **[https://delcampoapp.onrender.com/](https://delcampoapp.onrender.com/)**
 
 ---
 
