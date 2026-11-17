@@ -23,6 +23,22 @@ function initializeDatabase(options = {}) {
   const db = getDatabase();
   console.log(`⚙️  Motor activo: ${db.engine}`);
 
+  if (!force) {
+    try {
+      const existing = db.prepare("SELECT count(*) as count FROM sqlite_master WHERE type='table' AND name='usuarios'").get();
+      if (existing && existing.count > 0) {
+        const userCount = db.prepare('SELECT count(*) as count FROM usuarios').get();
+        if (userCount && userCount.count > 0) {
+          console.log('✅ Base de datos existente detectada y preservada (modo force=false).');
+          printSummary(db);
+          return true;
+        }
+      }
+    } catch (checkErr) {
+      // Si falla la consulta, continuar con la inicialización limpia
+    }
+  }
+
   // 1. Ejecutar Schema DDL
   const schemaPath = path.join(__dirname, 'schema.sql');
   console.log(`📄 Aplicando esquema DDL: ${schemaPath}`);

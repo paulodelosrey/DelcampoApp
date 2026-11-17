@@ -30,17 +30,19 @@ const app = {
 
   async fetchInitialData() {
     try {
-      const [prodsRes, fincasRes, aliadosRes, healthRes] = await Promise.all([
+      const [prodsRes, fincasRes, aliadosRes, healthRes, ordersRes] = await Promise.all([
         fetch('/api/productos'),
         fetch('/api/fincas'),
         fetch('/api/puntos-aliados'),
-        fetch('/api/health')
+        fetch('/api/health'),
+        fetch('/api/pedidos')
       ]);
 
       if (prodsRes.ok) this.state.products = await prodsRes.json();
       if (fincasRes.ok) this.state.fincas = await fincasRes.json();
       if (aliadosRes.ok) this.state.puntosAliados = await aliadosRes.json();
       if (healthRes.ok) this.state.health = await healthRes.json();
+      if (ordersRes.ok) this.state.orders = await ordersRes.json();
 
       this.populateFincaSelects();
       this.populatePuntoAliadoSelect();
